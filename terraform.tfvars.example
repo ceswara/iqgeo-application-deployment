@@ -1,0 +1,70 @@
+# Kubernetes Configuration
+kubeconfig_path    = "~/.kube/config"
+kubeconfig_context = ""  # Leave empty to use default context
+
+# Namespace
+namespace        = "default"  # Or "iqgeo" if you created a separate namespace
+create_namespace = false
+
+# Helm Chart Configuration
+release_name       = "iqgeo"
+helm_repository    = ""  # Your Helm repository URL (e.g., Harbor chart repository)
+helm_chart         = "iqgeo-platform"  # Chart name
+helm_chart_version = ""  # Chart version (leave empty for latest)
+helm_timeout       = 600  # 10 minutes
+
+# Image Configuration
+image_repository   = ""  # Harbor registry URL (e.g., harbor.delivery.iqgeo.cloud/iqgeo/platform)
+image_tag          = "latest"  # Or specific version tag
+image_pull_policy  = "IfNotPresent"
+image_pull_secrets = "harbor-repository"  # Must match secret created in prerequisites repo
+
+# Database Configuration
+db_host     = "10.42.42.9"  # PostgreSQL server IP
+db_port     = "5432"
+db_user     = "iqgeo"
+db_password = "YOUR_DB_PASSWORD"  # REQUIRED: Set this value
+db_name     = "iqgeo"
+
+# Storage Configuration
+storage_class = "iqgeo-storage"  # Must match storage class from prerequisites repo
+storage_size  = "50Gi"
+
+# Service Configuration
+service_type = "LoadBalancer"  # Or "ClusterIP", "NodePort"
+service_port = 80
+
+# Ingress Configuration
+ingress_enabled    = true
+ingress_class      = "nginx"
+ingress_host       = "iqgeo.local"  # Your domain name
+ingress_paths      = ["/"]
+ingress_tls_enabled = true
+ingress_tls_secret  = "iqgeo-tls-secret"  # Must match certificate from prerequisites repo
+
+# Resource Configuration
+resources = {
+  limits = {
+    cpu    = "2"
+    memory = "4Gi"
+  }
+  requests = {
+    cpu    = "1"
+    memory = "2Gi"
+  }
+}
+
+# Replica Configuration
+replica_count = 1
+
+# Additional Helm Values (optional)
+# set_values = [
+#   {
+#     name  = "some.setting"
+#     value = "some-value"
+#   }
+# ]
+
+# extra_values = {
+#   custom = "value"
+# }
