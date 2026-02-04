@@ -39,13 +39,13 @@ storage_size  = "50Gi"
 service_type = "LoadBalancer"
 service_port = 80
 
-# Ingress Configuration
-ingress_enabled    = false  # Set to true if you configured ingress in prerequisites
+# Ingress Configuration (matches working cluster)
+ingress_enabled    = true  # Ingress is enabled in working cluster
 ingress_class      = "nginx"
-ingress_host       = ""  # Set your domain if ingress is enabled
+ingress_host       = "iqgeo.techwave.com"  # Matches working cluster
 ingress_paths      = ["/"]
-ingress_tls_enabled = false
-ingress_tls_secret  = "iqgeo-tls-secret"
+ingress_tls_enabled = true  # TLS is enabled in working cluster
+ingress_tls_secret  = "iqgeo.tls-secret"  # Matches working cluster (note: uses dot, not dash)
 
 # Resource Configuration
 resources = {
