@@ -57,7 +57,9 @@ resource "null_resource" "helm_registry_login" {
       HARBOR_HOST=$(echo "${var.helm_chart_oci_registry}" | cut -d'/' -f1)
       
       # Login to Harbor registry
-      echo "${var.harbor_password}" | $HELM_CMD registry login $HARBOR_HOST -u "${var.harbor_username}" --password-stdin
+      # Use single quotes to prevent shell variable expansion of $ in username
+      HARBOR_USER='${var.harbor_username}'
+      echo "${var.harbor_password}" | $HELM_CMD registry login $HARBOR_HOST -u "$HARBOR_USER" --password-stdin
     EOT
   }
 
