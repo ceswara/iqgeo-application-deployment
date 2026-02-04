@@ -35,8 +35,13 @@ resource "null_resource" "helm_registry_login" {
 
   provisioner "local-exec" {
     command = <<-EOT
+      if ! command -v helm &> /dev/null; then
+        echo "Warning: helm is not installed. Skipping registry login."
+        echo "Note: Helm chart will be pulled directly by Terraform Helm provider."
+        exit 0
+      fi
       HARBOR_HOST=$(echo "${var.helm_chart_oci_registry}" | cut -d'/' -f1)
-      echo "${var.harbor_password}" | helm registry login $HARBOR_HOST -u "${var.harbor_username}" --password-stdin
+      echo "${var.harbor_password}" | helm registry login $HARBOR_HOST -u "${var.harbor_username}" --password-stdin || true
     EOT
   }
 
