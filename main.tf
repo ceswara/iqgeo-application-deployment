@@ -47,8 +47,6 @@ resource "helm_release" "iqgeo" {
   wait    = true
   timeout = var.helm_timeout
 
-  depends_on = [null_resource.helm_registry_login]
-
   # Values from variables
   values = [
     yamlencode({
