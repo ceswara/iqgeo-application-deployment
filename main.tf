@@ -113,9 +113,7 @@ resource "helm_release" "iqgeo" {
             hosts      = [var.ingress_host]
           }
         ] : []
-      } : {
-        enabled = false
-      }
+      } : null
 
       # Resource limits
       resources = var.resources
