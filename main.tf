@@ -29,9 +29,33 @@ provider "helm" {
   }
 }
 
-# Note: The Terraform Helm provider handles OCI registry authentication automatically
-# using the registry credentials. No manual helm registry login is needed.
-# The Helm chart itself will create the harbor-repository secret for image pulls.
+# Authenticate with Harbor OCI registry before pulling chart
+# The Terraform Helm provider requires helm CLI to be installed and authenticated
+resource "null_resource" "helm_registry_login" {
+  count = var.helm_repository == "" && var.harbor_username != "" && var.harbor_password != "" ? 1 : 0
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      # Check if helm is installed
+      if ! command -v helm &> /dev/null; then
+        echo "ERROR: helm CLI is required but not installed."
+        echo "Please install helm: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash"
+        exit 1
+      fi
+      
+      # Extract Harbor host from registry URL
+      HARBOR_HOST=$(echo "${var.helm_chart_oci_registry}" | cut -d'/' -f1)
+      
+      # Login to Harbor registry
+      echo "${var.harbor_password}" | helm registry login $HARBOR_HOST -u "${var.harbor_username}" --password-stdin
+    EOT
+  }
+
+  triggers = {
+    harbor_username = var.harbor_username
+    harbor_registry = var.helm_chart_oci_registry
+  }
+}
 
 # Deploy IQGeo Application via Helm Chart
 resource "helm_release" "iqgeo" {
@@ -46,6 +70,8 @@ resource "helm_release" "iqgeo" {
 
   wait    = true
   timeout = var.helm_timeout
+
+  depends_on = [null_resource.helm_registry_login]
 
   # Values from variables
   values = [
