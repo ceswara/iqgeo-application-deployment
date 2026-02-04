@@ -25,17 +25,37 @@ provider "helm" {
   }
 }
 
+# Authenticate with Harbor OCI registry before pulling chart
+resource "null_resource" "helm_registry_login" {
+  count = var.helm_repository == "" && var.harbor_username != "" && var.harbor_password != "" ? 1 : 0
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      echo "${var.harbor_password}" | helm registry login ${var.helm_chart_oci_registry%%/*} -u "${var.harbor_username}" --password-stdin
+    EOT
+  }
+
+  triggers = {
+    harbor_username = var.harbor_username
+    harbor_registry = var.helm_chart_oci_registry
+  }
+}
+
 # Deploy IQGeo Application via Helm Chart
 resource "helm_release" "iqgeo" {
   name       = var.release_name
-  repository = var.helm_repository
-  chart      = var.helm_chart
-  version    = var.helm_chart_version
+  # Use OCI registry format for Harbor (e.g., oci://harbor.delivery.iqgeo.cloud/helm/iqgeo-platform)
+  # If helm_repository is empty, assume chart is specified as OCI URL
+  repository = var.helm_repository != "" ? var.helm_repository : null
+  chart      = var.helm_repository != "" ? var.helm_chart : "oci://${var.helm_chart_oci_registry}/${var.helm_chart}"
+  version    = var.helm_chart_version != "" ? var.helm_chart_version : null
   namespace  = var.namespace
   create_namespace = var.create_namespace
 
   wait    = true
   timeout = var.helm_timeout
+
+  depends_on = [null_resource.helm_registry_login]
 
   # Values from variables
   values = [

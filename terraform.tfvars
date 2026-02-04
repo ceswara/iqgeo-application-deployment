@@ -1,0 +1,63 @@
+# Kubernetes Configuration
+kubeconfig_path    = "~/.kube/config"
+kubeconfig_context = ""
+
+# Namespace
+namespace        = "iqgeo"
+create_namespace = false  # Namespace already created by prerequisites
+
+# Helm Chart Configuration
+release_name          = "iqgeo"
+helm_repository       = ""  # Leave empty to use OCI registry
+helm_chart_oci_registry = "harbor.delivery.iqgeo.cloud/helm"  # OCI registry path
+helm_chart            = "iqgeo-platform"
+helm_chart_version    = "2.14.0"  # Update with your actual chart version
+helm_timeout          = 600
+
+# Harbor Authentication (for pulling Helm chart from OCI registry)
+harbor_username = "robot$techwave"
+harbor_password = "6hPfVGmi9gMMhhmE5pR64xDz4ahcQnvg"
+
+# Image Configuration
+image_repository   = "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud"
+image_tag          = "7.3"
+image_pull_policy  = "IfNotPresent"
+image_pull_secrets = "harbor-repository"  # Must match secret from prerequisites
+
+# Database Configuration (must match prerequisites)
+db_host     = "10.42.42.9"
+db_port     = "5432"
+db_user     = "iqgeo"
+db_password = "6hPfVGmi9gMMhhmE5pR64xDz4ahcQnvg"
+db_name     = "iqgeo"
+
+# Storage Configuration (must match prerequisites)
+storage_class = "iqgeo-storage"
+storage_size  = "50Gi"
+
+# Service Configuration
+service_type = "LoadBalancer"
+service_port = 80
+
+# Ingress Configuration
+ingress_enabled    = false  # Set to true if you configured ingress in prerequisites
+ingress_class      = "nginx"
+ingress_host       = ""  # Set your domain if ingress is enabled
+ingress_paths      = ["/"]
+ingress_tls_enabled = false
+ingress_tls_secret  = "iqgeo-tls-secret"
+
+# Resource Configuration
+resources = {
+  limits = {
+    cpu    = "2"
+    memory = "4Gi"
+  }
+  requests = {
+    cpu    = "1"
+    memory = "2Gi"
+  }
+}
+
+# Replica Configuration
+replica_count = 3  # Recommended to match working cluster

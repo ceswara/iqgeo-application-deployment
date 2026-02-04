@@ -29,9 +29,29 @@ variable "release_name" {
 }
 
 variable "helm_repository" {
-  description = "Helm chart repository URL"
+  description = "Helm chart repository URL (leave empty to use OCI registry)"
   type        = string
   default     = ""
+}
+
+variable "helm_chart_oci_registry" {
+  description = "OCI registry URL for Helm chart (e.g., harbor.delivery.iqgeo.cloud/helm)"
+  type        = string
+  default     = "harbor.delivery.iqgeo.cloud/helm"
+}
+
+variable "harbor_username" {
+  description = "Harbor registry username for Helm chart authentication"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "harbor_password" {
+  description = "Harbor registry password for Helm chart authentication"
+  type        = string
+  default     = ""
+  sensitive   = true
 }
 
 variable "helm_chart" {
