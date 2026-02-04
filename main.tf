@@ -36,8 +36,18 @@ resource "null_resource" "helm_registry_login" {
 
   provisioner "local-exec" {
     command = <<-EOT
-      # Check if helm is installed
-      if ! command -v helm &> /dev/null; then
+      # Set PATH to include common binary locations
+      export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
+      
+      # Check if helm is installed (try common locations)
+      HELM_CMD=""
+      if command -v helm &> /dev/null; then
+        HELM_CMD="helm"
+      elif [ -f /usr/local/bin/helm ]; then
+        HELM_CMD="/usr/local/bin/helm"
+      elif [ -f /usr/bin/helm ]; then
+        HELM_CMD="/usr/bin/helm"
+      else
         echo "ERROR: helm CLI is required but not installed."
         echo "Please install helm: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash"
         exit 1
@@ -47,7 +57,7 @@ resource "null_resource" "helm_registry_login" {
       HARBOR_HOST=$(echo "${var.helm_chart_oci_registry}" | cut -d'/' -f1)
       
       # Login to Harbor registry
-      echo "${var.harbor_password}" | helm registry login $HARBOR_HOST -u "${var.harbor_username}" --password-stdin
+      echo "${var.harbor_password}" | $HELM_CMD registry login $HARBOR_HOST -u "${var.harbor_username}" --password-stdin
     EOT
   }
 
