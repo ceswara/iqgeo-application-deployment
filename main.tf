@@ -35,7 +35,8 @@ resource "null_resource" "helm_registry_login" {
 
   provisioner "local-exec" {
     command = <<-EOT
-      echo "${var.harbor_password}" | helm registry login ${var.helm_chart_oci_registry%%/*} -u "${var.harbor_username}" --password-stdin
+      HARBOR_HOST=$(echo "${var.helm_chart_oci_registry}" | cut -d'/' -f1)
+      echo "${var.harbor_password}" | helm registry login $HARBOR_HOST -u "${var.harbor_username}" --password-stdin
     EOT
   }
 
