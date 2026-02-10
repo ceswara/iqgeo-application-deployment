@@ -113,6 +113,9 @@ resource "helm_release" "iqgeo" {
         enabled      = true
         storageClass = var.storage_class
         size         = var.storage_size
+        # Your underlying storage class (rancher.io/local-path via "efs") only supports ReadWriteOnce.
+        # Override chart default (often ReadWriteMany) so the PVC can be provisioned.
+        accessModes  = ["ReadWriteOnce"]
       }
 
       # Service configuration
