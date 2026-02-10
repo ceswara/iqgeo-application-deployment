@@ -122,6 +122,8 @@ resource "helm_release" "iqgeo" {
       }
 
       # Ingress configuration
+      # The chart expects .Values.ingress to always be an object and checks .enabled.
+      # When disabled, send { enabled = false } instead of null to avoid nil-pointer errors.
       ingress = var.ingress_enabled ? {
         enabled   = true
         className = var.ingress_class
@@ -143,7 +145,9 @@ resource "helm_release" "iqgeo" {
             hosts      = [var.ingress_host]
           }
         ] : []
-      } : null
+      } : {
+        enabled = false
+      }
 
       # Resource limits
       resources = var.resources
