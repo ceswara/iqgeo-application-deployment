@@ -128,7 +128,13 @@ resource "helm_release" "iqgeo" {
         hosts = [
           {
             host  = var.ingress_host
-            paths = var.ingress_paths
+            # Chart expects list of objects with .path (and often .pathType),
+            # but var.ingress_paths is a simple list of strings.
+            # Convert each string into the required object shape.
+            paths = [for p in var.ingress_paths : {
+              path     = p
+              pathType = "ImplementationSpecific"
+            }]
           }
         ]
         tls = var.ingress_tls_enabled ? [
