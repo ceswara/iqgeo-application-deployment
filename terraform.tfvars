@@ -60,4 +60,4 @@ resources = {
 }
 
 # Replica Configuration
-replica_count = 3  # Recommended to match working cluster
+replica_count = 1  # Reduced to 1 to fit on-prem cluster resources

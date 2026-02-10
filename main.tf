@@ -109,13 +109,12 @@ resource "helm_release" "iqgeo" {
       }
 
       # Storage configuration
+      # On this on-prem cluster, persistent shared storage is not available yet.
+      # Disable chart persistence so pods can start without a PVC.
       persistence = {
-        enabled      = true
-        storageClass = var.storage_class
-        size         = var.storage_size
-        # Your underlying storage class (rancher.io/local-path via "efs") only supports ReadWriteOnce.
-        # Override chart default (often ReadWriteMany) so the PVC can be provisioned.
-        accessModes  = ["ReadWriteOnce"]
+        enabled      = false
+        storageClass = null
+        size         = null
       }
 
       # Service configuration
