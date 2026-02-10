@@ -148,7 +148,14 @@ resource "helm_release" "iqgeo" {
       } : {
         enabled   = false
         className = null
-        hosts     = []
+        # Chart still indexes into .Values.ingress.hosts[0] for config (URLs),
+        # so keep a single host entry even when ingress is disabled.
+        hosts = [
+          {
+            host  = var.ingress_host
+            paths = []
+          }
+        ]
         tls       = []
       }
 
