@@ -146,7 +146,10 @@ resource "helm_release" "iqgeo" {
           }
         ] : []
       } : {
-        enabled = false
+        enabled   = false
+        className = null
+        hosts     = []
+        tls       = []
       }
 
       # Resource limits
