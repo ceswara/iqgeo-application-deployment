@@ -48,15 +48,15 @@ ingress_paths      = ["/"]
 ingress_tls_enabled = true  # TLS is enabled in working cluster
 ingress_tls_secret  = "iqgeo.tls-secret"  # Matches working cluster (note: uses dot, not dash)
 
-# Resource Configuration
+# Resource Configuration (reduced for on-prem cluster with limited memory)
 resources = {
   limits = {
-    cpu    = "2"
-    memory = "4Gi"
+    cpu    = "1"
+    memory = "1Gi"
   }
   requests = {
-    cpu    = "1"
-    memory = "2Gi"
+    cpu    = "500m"
+    memory = "512Mi"  # Reduced from 2Gi to fit on-prem nodes
   }
 }
 
