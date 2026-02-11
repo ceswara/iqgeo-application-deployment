@@ -40,7 +40,7 @@ service_type = "LoadBalancer"
 service_port = 80
 
 # Ingress Configuration (matches working cluster)
-ingress_enabled    = true  # Ingress is enabled in working cluster
+ingress_enabled    = false  # Temporarily disabled to avoid chart backend.subName nil pointer
 ingress_class      = "nginx"
 ingress_host       = "iqgeo-tf.techwave.com"  # Terraform-deployed cluster
 ingress_paths      = ["/"]
