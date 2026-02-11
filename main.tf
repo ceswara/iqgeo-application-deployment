@@ -109,12 +109,14 @@ resource "helm_release" "iqgeo" {
       }
 
       # Storage configuration
-      # On this on-prem cluster, persistent shared storage is not available yet.
-      # Disable chart persistence so pods can start without a PVC.
+      # Use NFS-based storage (iqgeo-storage) from on-prem deployment.
+      # This requires NFS provisioner to be installed via iqgeo-onprem-deployment first.
       persistence = {
-        enabled      = false
-        storageClass = null
-        size         = null
+        enabled      = true
+        storageClass = var.storage_class  # Should be "iqgeo-storage" (NFS-based)
+        size         = var.storage_size
+        # NFS supports ReadWriteMany, but if your provisioner only supports ReadWriteOnce, uncomment:
+        # accessModes  = ["ReadWriteOnce"]
       }
 
       # Service configuration
