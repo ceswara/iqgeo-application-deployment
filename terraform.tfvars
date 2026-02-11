@@ -12,7 +12,7 @@ helm_repository       = ""  # Leave empty to use OCI registry
 helm_chart_oci_registry = "harbor.delivery.iqgeo.cloud/helm"  # OCI registry path
 helm_chart            = "iqgeo-platform"
 helm_chart_version    = "2.14.0"  # Update with your actual chart version
-helm_timeout          = 600
+helm_timeout          = 1800  # 30 minutes - give more time for NFS provisioning
 
 # Harbor Authentication (for pulling Helm chart from OCI registry)
 harbor_username = "robot$techwave"
@@ -32,7 +32,8 @@ db_password = "6hPfVGmi9gMMhhmE5pR64xDz4ahcQnvg"
 db_name     = "iqgeo"
 
 # Storage Configuration (must match prerequisites)
-storage_class = "iqgeo-storage"
+# Use "efs" StorageClass which uses local-path provisioner (local storage, not NFS)
+storage_class = "efs"
 storage_size  = "50Gi"
 
 # Service Configuration

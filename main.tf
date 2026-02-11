@@ -81,7 +81,7 @@ resource "helm_release" "iqgeo" {
   namespace  = var.namespace
   create_namespace = var.create_namespace
 
-  wait    = true
+  wait    = false  # Don't wait for pods to be ready - we'll check manually
   timeout = var.helm_timeout
 
   depends_on = [null_resource.helm_registry_login]
@@ -109,14 +109,13 @@ resource "helm_release" "iqgeo" {
       }
 
       # Storage configuration
-      # Use NFS-based storage (iqgeo-storage) from on-prem deployment.
-      # This requires NFS provisioner to be installed via iqgeo-onprem-deployment first.
+      # Use local-path storage (efs StorageClass) - no NFS needed.
+      # local-path provisioner only supports ReadWriteOnce access mode.
       persistence = {
         enabled      = true
-        storageClass = var.storage_class  # Should be "iqgeo-storage" (NFS-based)
+        storageClass = var.storage_class  # "efs" which uses local-path provisioner
         size         = var.storage_size
-        # NFS supports ReadWriteMany, but if your provisioner only supports ReadWriteOnce, uncomment:
-        # accessModes  = ["ReadWriteOnce"]
+        accessModes  = ["ReadWriteOnce"]  # Required for local-path provisioner
       }
 
       # Service configuration
