@@ -1,8 +1,8 @@
 =========================================
-Terraform Fix Replicas - Fri Feb 13 05:40:54 PM UTC 2026
+Terraform Fix Replicas - Fri Feb 13 05:47:29 PM UTC 2026
 =========================================
 
-[Fri Feb 13 05:40:54 PM UTC 2026] Starting fix process...
+[Fri Feb 13 05:47:29 PM UTC 2026] Starting fix process...
 
 === STEP 1: Current Terraform State ===
 # helm_release.iqgeo:
@@ -23,11 +23,17 @@ resource "helm_release" "iqgeo" {
         {
             app_version    = "7.0.0"
             chart          = "iqgeo-platform"
-            first_deployed = 1770781844
-            last_deployed  = 1770782635
+            first_deployed = 1771004478
+            last_deployed  = 1771004478
             name           = "iqgeo"
             namespace      = "iqgeo"
             notes          = <<-EOT
+                1. Get the application URL by running these commands:
+                     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+                           You can watch the status of by running 'kubectl get --namespace iqgeo svc -w iqgeo-iqgeo-platform'
+                  export SERVICE_IP=$(kubectl get svc --namespace iqgeo iqgeo-iqgeo-platform --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+                  echo http://$SERVICE_IP:80
+                
                 CHART NAME: memcached
                 CHART VERSION: 6.1.9
                 APP VERSION: 1.6.16
@@ -37,14 +43,8 @@ resource "helm_release" "iqgeo" {
                 Memcached can be accessed via port 11211 on the following DNS name from within your cluster:
                 
                     iqgeo-memcached.iqgeo.svc.cluster.local
-                
-                1. Get the application URL by running these commands:
-                     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-                           You can watch the status of by running 'kubectl get --namespace iqgeo svc -w iqgeo-iqgeo-platform'
-                  export SERVICE_IP=$(kubectl get svc --namespace iqgeo iqgeo-iqgeo-platform --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
-                  echo http://$SERVICE_IP:80
             EOT
-            revision       = 2
+            revision       = 1
             values         = jsonencode(
                 {
                     database         = {
@@ -64,8 +64,8 @@ metadata:
     deployment.kubernetes.io/revision: "1"
     meta.helm.sh/release-name: iqgeo
     meta.helm.sh/release-namespace: iqgeo
-  creationTimestamp: "2026-02-11T03:50:45Z"
-  generation: 6
+  creationTimestamp: "2026-02-13T17:41:20Z"
+  generation: 2
   labels:
     app: iqgeo-platform
     app.kubernetes.io/instance: iqgeo
@@ -78,8 +78,8 @@ metadata:
     release: iqgeo
   name: iqgeo-platform
   namespace: iqgeo
-  resourceVersion: "2243586"
-  uid: c81f3f83-f99b-4494-8874-c6a0151a0330
+  resourceVersion: "2611925"
+  uid: 164d2cc3-cd67-4e07-bb49-3a2efe346385
 spec:
   progressDeadlineSeconds: 600
   replicas: 3
@@ -185,30 +185,29 @@ spec:
           claimName: iqgeo-platform-shared-data
 status:
   conditions:
-  - lastTransitionTime: "2026-02-11T03:50:45Z"
-    lastUpdateTime: "2026-02-11T03:50:45Z"
+  - lastTransitionTime: "2026-02-13T17:41:21Z"
+    lastUpdateTime: "2026-02-13T17:41:21Z"
     message: Deployment does not have minimum availability.
     reason: MinimumReplicasUnavailable
     status: "False"
     type: Available
-  - lastTransitionTime: "2026-02-11T04:20:02Z"
-    lastUpdateTime: "2026-02-11T04:20:02Z"
-    message: ReplicaSet "iqgeo-platform-65448dfd68" has timed out progressing.
-    reason: ProgressDeadlineExceeded
-    status: "False"
+  - lastTransitionTime: "2026-02-13T17:41:21Z"
+    lastUpdateTime: "2026-02-13T17:41:23Z"
+    message: ReplicaSet "iqgeo-platform-65448dfd68" is progressing.
+    reason: ReplicaSetUpdated
+    status: "True"
     type: Progressing
-  observedGeneration: 6
+  observedGeneration: 2
   replicas: 3
   unavailableReplicas: 3
   updatedReplicas: 3
 
 === Current Pods ===
-NAME                                                       READY   STATUS    RESTARTS   AGE
-iqgeo-memcached-69d7fd799c-kbf2r                           1/1     Running   0          2d13h
-iqgeo-platform-65448dfd68-f8s92                            0/1     Pending   0          2d13h
-iqgeo-platform-65448dfd68-tkrz7                            0/1     Pending   0          2d13h
-iqgeo-platform-65448dfd68-vjrjt                            0/1     Pending   0          2d13h
-iqgeo-platform-replication-export-cronjob-29516740-sw57n   0/1     Pending   0          62s
+NAME                               READY   STATUS    RESTARTS   AGE
+iqgeo-memcached-69d7fd799c-f9rbc   1/1     Running   0          6m10s
+iqgeo-platform-65448dfd68-dbllw    0/1     Pending   0          6m9s
+iqgeo-platform-65448dfd68-qgntl    0/1     Pending   0          6m9s
+iqgeo-platform-65448dfd68-tsdvl    0/1     Pending   0          6m10s
 
 === STEP 3: Checking terraform.tfvars ===
 replica_count = 1  # Reduced to 1 to fit on-prem cluster resources
@@ -231,11 +230,17 @@ Terraform will perform the following actions:
           [31m-[0m[0m {
               [31m-[0m[0m app_version    = "7.0.0"
               [31m-[0m[0m chart          = "iqgeo-platform"
-              [31m-[0m[0m first_deployed = 1770781844
-              [31m-[0m[0m last_deployed  = 1770782635
+              [31m-[0m[0m first_deployed = 1771004478
+              [31m-[0m[0m last_deployed  = 1771004478
               [31m-[0m[0m name           = "iqgeo"
               [31m-[0m[0m namespace      = "iqgeo"
               [31m-[0m[0m notes          = <<-EOT
+                    1. Get the application URL by running these commands:
+                         NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+                               You can watch the status of by running 'kubectl get --namespace iqgeo svc -w iqgeo-iqgeo-platform'
+                      export SERVICE_IP=$(kubectl get svc --namespace iqgeo iqgeo-iqgeo-platform --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+                      echo http://$SERVICE_IP:80
+                    
                     CHART NAME: memcached
                     CHART VERSION: 6.1.9
                     APP VERSION: 1.6.16
@@ -245,14 +250,8 @@ Terraform will perform the following actions:
                     Memcached can be accessed via port 11211 on the following DNS name from within your cluster:
                     
                         iqgeo-memcached.iqgeo.svc.cluster.local
-                    
-                    1. Get the application URL by running these commands:
-                         NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-                               You can watch the status of by running 'kubectl get --namespace iqgeo svc -w iqgeo-iqgeo-platform'
-                      export SERVICE_IP=$(kubectl get svc --namespace iqgeo iqgeo-iqgeo-platform --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
-                      echo http://$SERVICE_IP:80
                 EOT
-              [31m-[0m[0m revision       = 2
+              [31m-[0m[0m revision       = 1
               [31m-[0m[0m values         = jsonencode(
                     {
                       [31m-[0m[0m database         = {
@@ -312,6 +311,37 @@ Terraform will perform the following actions:
         ] -> (known after apply)
         name                       = "iqgeo"
         [90m# (26 unchanged attributes hidden)[0m[0m
+
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "autoscaling.enabled"
+          [32m+[0m[0m value = "false"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "replicaCount"
+          [32m+[0m[0m value = "1"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "resources.limits.cpu"
+          [32m+[0m[0m value = "1"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "resources.limits.memory"
+          [32m+[0m[0m value = "1Gi"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "resources.requests.cpu"
+          [32m+[0m[0m value = "500m"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "resources.requests.memory"
+          [32m+[0m[0m value = "512Mi"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
     }
 
 [1mPlan:[0m [0m1 to add, 0 to change, 1 to destroy.
@@ -322,7 +352,8 @@ Note: You didn't use the -out option to save this plan, so Terraform can't
 guarantee to take exactly these actions if you run "terraform apply" now.
 
 === STEP 5: Applying Terraform Fix ===
-[Fri Feb 13 05:41:08 PM UTC 2026] Running: terraform apply -replace=helm_release.iqgeo
+[Fri Feb 13 05:47:35 PM UTC 2026] Running: terraform apply -replace=helm_release.iqgeo
+Note: Using set_values to force override replicaCount and resources
 [0m[1mnull_resource.helm_registry_login[0]: Refreshing state... [id=7183044719346953613][0m
 [0m[1mhelm_release.iqgeo: Refreshing state... [id=iqgeo][0m
 
@@ -340,11 +371,17 @@ Terraform will perform the following actions:
           [31m-[0m[0m {
               [31m-[0m[0m app_version    = "7.0.0"
               [31m-[0m[0m chart          = "iqgeo-platform"
-              [31m-[0m[0m first_deployed = 1770781844
-              [31m-[0m[0m last_deployed  = 1770782635
+              [31m-[0m[0m first_deployed = 1771004478
+              [31m-[0m[0m last_deployed  = 1771004478
               [31m-[0m[0m name           = "iqgeo"
               [31m-[0m[0m namespace      = "iqgeo"
               [31m-[0m[0m notes          = <<-EOT
+                    1. Get the application URL by running these commands:
+                         NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+                               You can watch the status of by running 'kubectl get --namespace iqgeo svc -w iqgeo-iqgeo-platform'
+                      export SERVICE_IP=$(kubectl get svc --namespace iqgeo iqgeo-iqgeo-platform --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+                      echo http://$SERVICE_IP:80
+                    
                     CHART NAME: memcached
                     CHART VERSION: 6.1.9
                     APP VERSION: 1.6.16
@@ -354,14 +391,8 @@ Terraform will perform the following actions:
                     Memcached can be accessed via port 11211 on the following DNS name from within your cluster:
                     
                         iqgeo-memcached.iqgeo.svc.cluster.local
-                    
-                    1. Get the application URL by running these commands:
-                         NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-                               You can watch the status of by running 'kubectl get --namespace iqgeo svc -w iqgeo-iqgeo-platform'
-                      export SERVICE_IP=$(kubectl get svc --namespace iqgeo iqgeo-iqgeo-platform --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
-                      echo http://$SERVICE_IP:80
                 EOT
-              [31m-[0m[0m revision       = 2
+              [31m-[0m[0m revision       = 1
               [31m-[0m[0m values         = jsonencode(
                     {
                       [31m-[0m[0m database         = {
@@ -421,13 +452,44 @@ Terraform will perform the following actions:
         ] -> (known after apply)
         name                       = "iqgeo"
         [90m# (26 unchanged attributes hidden)[0m[0m
+
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "autoscaling.enabled"
+          [32m+[0m[0m value = "false"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "replicaCount"
+          [32m+[0m[0m value = "1"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "resources.limits.cpu"
+          [32m+[0m[0m value = "1"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "resources.limits.memory"
+          [32m+[0m[0m value = "1Gi"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "resources.requests.cpu"
+          [32m+[0m[0m value = "500m"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "resources.requests.memory"
+          [32m+[0m[0m value = "512Mi"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
     }
 
 [1mPlan:[0m [0m1 to add, 0 to change, 1 to destroy.
 [0m[1mhelm_release.iqgeo: Destroying... [id=iqgeo][0m[0m
-[0m[1mhelm_release.iqgeo: Destruction complete after 3s[0m
+[0m[1mhelm_release.iqgeo: Destruction complete after 2s[0m
 [0m[1mhelm_release.iqgeo: Creating...[0m[0m
-[0m[1mhelm_release.iqgeo: Creation complete after 4s [id=iqgeo][0m
+[0m[1mhelm_release.iqgeo: Creation complete after 3s [id=iqgeo][0m
 [0m[1m[32m
 Apply complete! Resources: 1 added, 0 changed, 1 destroyed.[0m
 [0m[1m[32m
@@ -439,24 +501,24 @@ release_name = "iqgeo"
 status = "deployed"
 version = "2.14.0"
 
-[Fri Feb 13 05:41:21 PM UTC 2026] ✅ Terraform apply completed successfully
+[Fri Feb 13 05:47:46 PM UTC 2026] ✅ Terraform apply completed successfully
 
-[Fri Feb 13 05:41:21 PM UTC 2026] Waiting 30 seconds for Kubernetes to process changes...
+[Fri Feb 13 05:47:46 PM UTC 2026] Waiting 30 seconds for Kubernetes to process changes...
 
 === STEP 6: Deployment State After Fix ===
 NAME             READY   UP-TO-DATE   AVAILABLE   AGE
-iqgeo-platform   0/3     3            0           32s
+iqgeo-platform   0/3     3            0           30s
 
 === Pods After Fix ===
 NAME                               READY   STATUS    RESTARTS   AGE
-iqgeo-memcached-69d7fd799c-f9rbc   1/1     Running   0          31s
-iqgeo-platform-65448dfd68-dbllw    0/1     Pending   0          30s
-iqgeo-platform-65448dfd68-qgntl    0/1     Pending   0          30s
-iqgeo-platform-65448dfd68-tsdvl    0/1     Pending   0          31s
+iqgeo-memcached-69d7fd799c-klgbw   1/1     Running   0          30s
+iqgeo-platform-65448dfd68-drfb4    0/1     Pending   0          23s
+iqgeo-platform-65448dfd68-g4cpf    0/1     Pending   0          23s
+iqgeo-platform-65448dfd68-xv8gs    0/1     Pending   0          30s
 
 === STEP 7: Pod Details ===
---- pod/iqgeo-platform-65448dfd68-dbllw ---
-Name:             iqgeo-platform-65448dfd68-dbllw
+--- pod/iqgeo-platform-65448dfd68-drfb4 ---
+Name:             iqgeo-platform-65448dfd68-drfb4
 Namespace:        iqgeo
 Priority:         0
 Service Account:  iqgeo-platform
@@ -486,7 +548,7 @@ Init Containers:
       iqgeo-platform-configmap  ConfigMap  Optional: false
     Environment:                <none>
     Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-f5qvt (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-8mwpn (ro)
 Containers:
   iqgeo-platform:
     Image:      harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3
@@ -508,7 +570,7 @@ Containers:
       APACHE_TIMEOUT:             1200
     Mounts:
       /shared-data from iqgeo-platform-shared-data (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-f5qvt (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-8mwpn (ro)
 Conditions:
   Type           Status
   PodScheduled   False 
@@ -517,7 +579,7 @@ Volumes:
     Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
     ClaimName:  iqgeo-platform-shared-data
     ReadOnly:   false
-  kube-api-access-f5qvt:
+  kube-api-access-8mwpn:
     Type:                    Projected (a volume that contains injected data from multiple sources)
     TokenExpirationSeconds:  3607
     ConfigMapName:           kube-root-ca.crt
@@ -530,10 +592,10 @@ Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists fo
 Events:
   Type     Reason            Age   From               Message
   ----     ------            ----  ----               -------
-  Warning  FailedScheduling  32s   default-scheduler  0/3 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }, 2 Insufficient memory. preemption: 0/3 nodes are available: 1 Preemption is not helpful for scheduling, 2 No preemption victims found for incoming pod..
+  Warning  FailedScheduling  24s   default-scheduler  0/3 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }, 2 Insufficient memory. preemption: 0/3 nodes are available: 1 Preemption is not helpful for scheduling, 2 No preemption victims found for incoming pod..
 
---- pod/iqgeo-platform-65448dfd68-qgntl ---
-Name:             iqgeo-platform-65448dfd68-qgntl
+--- pod/iqgeo-platform-65448dfd68-g4cpf ---
+Name:             iqgeo-platform-65448dfd68-g4cpf
 Namespace:        iqgeo
 Priority:         0
 Service Account:  iqgeo-platform
@@ -563,7 +625,7 @@ Init Containers:
       iqgeo-platform-configmap  ConfigMap  Optional: false
     Environment:                <none>
     Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-q6h4m (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-5pgkj (ro)
 Containers:
   iqgeo-platform:
     Image:      harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3
@@ -585,7 +647,7 @@ Containers:
       APACHE_TIMEOUT:             1200
     Mounts:
       /shared-data from iqgeo-platform-shared-data (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-q6h4m (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-5pgkj (ro)
 Conditions:
   Type           Status
   PodScheduled   False 
@@ -594,7 +656,7 @@ Volumes:
     Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
     ClaimName:  iqgeo-platform-shared-data
     ReadOnly:   false
-  kube-api-access-q6h4m:
+  kube-api-access-5pgkj:
     Type:                    Projected (a volume that contains injected data from multiple sources)
     TokenExpirationSeconds:  3607
     ConfigMapName:           kube-root-ca.crt
@@ -607,10 +669,10 @@ Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists fo
 Events:
   Type     Reason            Age   From               Message
   ----     ------            ----  ----               -------
-  Warning  FailedScheduling  32s   default-scheduler  0/3 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }, 2 Insufficient memory. preemption: 0/3 nodes are available: 1 Preemption is not helpful for scheduling, 2 No preemption victims found for incoming pod..
+  Warning  FailedScheduling  24s   default-scheduler  0/3 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }, 2 Insufficient memory. preemption: 0/3 nodes are available: 1 Preemption is not helpful for scheduling, 2 No preemption victims found for incoming pod..
 
---- pod/iqgeo-platform-65448dfd68-tsdvl ---
-Name:             iqgeo-platform-65448dfd68-tsdvl
+--- pod/iqgeo-platform-65448dfd68-xv8gs ---
+Name:             iqgeo-platform-65448dfd68-xv8gs
 Namespace:        iqgeo
 Priority:         0
 Service Account:  iqgeo-platform
@@ -640,7 +702,7 @@ Init Containers:
       iqgeo-platform-configmap  ConfigMap  Optional: false
     Environment:                <none>
     Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-98z8t (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-fdnvh (ro)
 Containers:
   iqgeo-platform:
     Image:      harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3
@@ -662,13 +724,13 @@ Containers:
       APACHE_TIMEOUT:             1200
     Mounts:
       /shared-data from iqgeo-platform-shared-data (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-98z8t (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-fdnvh (ro)
 Volumes:
   iqgeo-platform-shared-data:
     Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
     ClaimName:  iqgeo-platform-shared-data
     ReadOnly:   false
-  kube-api-access-98z8t:
+  kube-api-access-fdnvh:
     Type:                    Projected (a volume that contains injected data from multiple sources)
     TokenExpirationSeconds:  3607
     ConfigMapName:           kube-root-ca.crt
@@ -682,10 +744,10 @@ Events:                      <none>
 
 === STEP 8: PVC Status ===
 NAME                         STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-iqgeo-platform-shared-data   Pending                                      efs            34s
+iqgeo-platform-shared-data   Pending                                      efs            31s
 
 === SUMMARY ===
-[Fri Feb 13 05:41:54 PM UTC 2026] Fix process completed
+[Fri Feb 13 05:48:17 PM UTC 2026] Fix process completed
 Check terraform-fix-output.txt for full details
 
 === FINAL STATUS ===
@@ -697,5 +759,5 @@ Pending pods:
 3
 
 =========================================
-Script completed at Fri Feb 13 05:41:54 PM UTC 2026
+Script completed at Fri Feb 13 05:48:17 PM UTC 2026
 =========================================
