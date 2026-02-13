@@ -1,0 +1,52 @@
+=== Pod Resources Check ===
+Date: Fri Feb 13 05:57:34 PM UTC 2026
+
+=== Deployment Spec (replicas and resources) ===
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: iqgeo-platform
+      app.kubernetes.io/instance: iqgeo
+      app.kubernetes.io/name: iqgeo-platform
+      namespace: iqgeo
+      release: iqgeo
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum/config: 478a86ee23546a3f0f7cf69bdd3975a55b88d880c3d9b209f0d32c3b1c1e3f80
+      creationTimestamp: null
+--
+    spec:
+      containers:
+      - env:
+        - name: RQ_REDIS_URL
+          value: redis://iqgeo-redis-master:6379/1
+        - name: SEND_ERROR_LOG_TO_STDERR
+          value: "YES"
+        - name: SEND_ACCESS_LOG_TO_STDOUT
+
+=== Pod Resource Requests and Limits ===
+--- pod/iqgeo-platform-65448dfd68-xv8gs ---
+{"limits":{"cpu":"2","memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}}
+=== Pod Status and Events ===
+NAME                              READY   STATUS    RESTARTS   AGE
+iqgeo-platform-65448dfd68-xv8gs   0/1     Pending   0          9m49s
+
+--- Events for pod/iqgeo-platform-65448dfd68-xv8gs ---
+Events:                      <none>
+
+=== Node Resources (available memory) ===
+Metrics server not available
+NAME                  CPU   MEMORY
+hlegeo6.iqgeo.local   2     2010144Ki
+hlegeo7.iqgeo.local   2     2010144Ki
+hlegeo8.iqgeo.local   2     2010144Ki
+
