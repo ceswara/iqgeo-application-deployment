@@ -91,13 +91,9 @@ set_values = [
     name  = "autoscaling.enabled"
     value = "false"
   },
-  # Alternative: if autoscaling.enabled doesn't work, try these:
-  # {
-  #   name  = "autoscaling.minReplicas"
-  #   value = "1"
-  # },
-  # {
-  #   name  = "hpa.enabled"
-  #   value = "false"
-  # }
+  # Fix PVC access mode - chart is creating ReadWriteMany, force ReadWriteOnce
+  {
+    name  = "persistence.accessModes[0]"
+    value = "ReadWriteOnce"
+  }
 ]
