@@ -1,0 +1,156 @@
+=== HPA Deletion Script ===
+Date: Fri Feb 13 05:52:51 PM UTC 2026
+
+=== Checking for HPA resources ===
+NAME                         REFERENCE                   TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+iqgeo-platform--worker-hpa   Deployment/iqgeo-worker     <unknown>/20%   1         3         0          5m5s
+iqgeo-platform-hpa           Deployment/iqgeo-platform   <unknown>/80%   3         20        3          5m5s
+
+=== All HPAs in iqgeo namespace ===
+apiVersion: v1
+items:
+- apiVersion: autoscaling/v2
+  kind: HorizontalPodAutoscaler
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: iqgeo
+      meta.helm.sh/release-namespace: iqgeo
+    creationTimestamp: "2026-02-13T17:47:46Z"
+    labels:
+      app.kubernetes.io/instance: iqgeo
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: iqgeo-platform
+      app.kubernetes.io/version: 7.0.0
+      helm.sh/chart: iqgeo-platform-2.14.0
+    name: iqgeo-platform--worker-hpa
+    namespace: iqgeo
+    resourceVersion: "2612775"
+    uid: 48e0b17c-bad5-4be4-9ed0-1dbb2857339e
+  spec:
+    behavior:
+      scaleDown:
+        policies:
+        - periodSeconds: 900
+          type: Pods
+          value: 1
+        selectPolicy: Max
+        stabilizationWindowSeconds: 3600
+      scaleUp:
+        policies:
+        - periodSeconds: 30
+          type: Pods
+          value: 1
+        selectPolicy: Max
+        stabilizationWindowSeconds: 60
+    maxReplicas: 3
+    metrics:
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: 20
+          type: Utilization
+      type: Resource
+    minReplicas: 1
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: iqgeo-worker
+  status:
+    conditions:
+    - lastTransitionTime: "2026-02-13T17:47:52Z"
+      message: 'the HPA controller was unable to get the target''s current scale:
+        deployments/scale.apps "iqgeo-worker" not found'
+      reason: FailedGetScale
+      status: "False"
+      type: AbleToScale
+    currentMetrics: null
+    desiredReplicas: 0
+- apiVersion: autoscaling/v2
+  kind: HorizontalPodAutoscaler
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: iqgeo
+      meta.helm.sh/release-namespace: iqgeo
+    creationTimestamp: "2026-02-13T17:47:46Z"
+    labels:
+      app.kubernetes.io/instance: iqgeo
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: iqgeo-platform
+      app.kubernetes.io/version: 7.0.0
+      helm.sh/chart: iqgeo-platform-2.14.0
+    name: iqgeo-platform-hpa
+    namespace: iqgeo
+    resourceVersion: "2612825"
+    uid: b6b19669-e765-43c3-b3a4-9d158e0b3b6d
+  spec:
+    behavior:
+      scaleDown:
+        policies:
+        - periodSeconds: 300
+          type: Pods
+          value: 1
+        selectPolicy: Max
+        stabilizationWindowSeconds: 300
+      scaleUp:
+        policies:
+        - periodSeconds: 25
+          type: Pods
+          value: 1
+        selectPolicy: Min
+        stabilizationWindowSeconds: 25
+    maxReplicas: 20
+    metrics:
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: 80
+          type: Utilization
+      type: Resource
+    minReplicas: 3
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: iqgeo-platform
+  status:
+    conditions:
+    - lastTransitionTime: "2026-02-13T17:47:53Z"
+      message: the HPA controller was able to get the target's current scale
+      reason: SucceededGetScale
+      status: "True"
+      type: AbleToScale
+    - lastTransitionTime: "2026-02-13T17:48:08Z"
+      message: 'the HPA was unable to compute the replica count: failed to get cpu
+        utilization: unable to get metrics for resource cpu: unable to fetch metrics
+        from resource metrics API: the server could not find the requested resource
+        (get pods.metrics.k8s.io)'
+      reason: FailedGetResourceMetric
+      status: "False"
+      type: ScalingActive
+    currentMetrics: null
+    currentReplicas: 3
+    desiredReplicas: 3
+    lastScaleTime: "2026-02-13T17:47:53Z"
+kind: List
+metadata:
+  resourceVersion: ""
+
+=== Deleting HPAs for iqgeo-platform ===
+Deleting HPA: iqgeo-platform-hpa
+horizontalpodautoscaler.autoscaling "iqgeo-platform-hpa" deleted from iqgeo namespace
+
+=== Verifying HPA deletion ===
+NAME                         REFERENCE                 TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+iqgeo-platform--worker-hpa   Deployment/iqgeo-worker   <unknown>/20%   1         3         0          5m6s
+
+=== Deployment status after HPA deletion ===
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+iqgeo-platform   0/3     3            0           5m6s
+
+Waiting 10 seconds for Kubernetes to reconcile...
+=== Final deployment status ===
+3
+NAME                              READY   STATUS    RESTARTS   AGE
+iqgeo-platform-65448dfd68-drfb4   0/1     Pending   0          5m9s
+iqgeo-platform-65448dfd68-g4cpf   0/1     Pending   0          5m9s
+iqgeo-platform-65448dfd68-xv8gs   0/1     Pending   0          5m16s
+
