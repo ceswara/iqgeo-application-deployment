@@ -1,0 +1,40 @@
+=========================================
+IQGeo Deployment Validation - Fri Feb 13 07:51:44 PM UTC 2026
+=========================================
+
+=== 1. PVC Status ===
+No resources found in iqgeo namespace.
+
+=== 2. PVC Details (access mode) ===
+PVC not found
+
+
+=== 3. Deployment Status ===
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+iqgeo-platform   0/0     0            0           123m
+
+=== 4. Replica Count ===
+0
+
+=== 5. Pod Status (iqgeo namespace) ===
+NAME                               READY   STATUS    RESTARTS   AGE
+iqgeo-memcached-69d7fd799c-klgbw   1/1     Running   0          123m
+
+=== 6. iqgeo-platform Pod Details ===
+=== 7. Helm Release Status ===
+NAME 	NAMESPACE	REVISION	UPDATED                               	STATUS  	CHART                	APP VERSION
+iqgeo	iqgeo    	1       	2026-02-13 17:47:45.42232462 +0000 UTC	deployed	iqgeo-platform-2.14.0	7.0.0      
+
+=== 8. Services ===
+NAME              TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+iqgeo-memcached   ClusterIP      10.103.27.150   <none>        11211/TCP      123m
+iqgeo-platform    LoadBalancer   10.97.144.46    <pending>     80:30304/TCP   123m
+
+=== 9. Validation Summary ===
+PVC phase: NotFound
+Deployment ready/desired:  / 0
+Result: VALIDATION INCOMPLETE (check sections above)
+
+=========================================
+End of validation
+=========================================
