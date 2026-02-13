@@ -1,0 +1,256 @@
+=== Checking Helm Release Values ===
+Date: Fri Feb 13 05:45:13 PM UTC 2026
+
+=== Helm Get Values ===
+USER-SUPPLIED VALUES:
+database:
+  host: 10.42.42.9
+  name: iqgeo
+  password: 6hPfVGmi9gMMhhmE5pR64xDz4ahcQnvg
+  port: "5432"
+  user: iqgeo
+extra: {}
+image:
+  pullPolicy: IfNotPresent
+  repository: harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud
+  tag: "7.3"
+imagePullSecrets:
+- harbor-repository
+ingress:
+  className: null
+  enabled: false
+  hosts:
+  - host: iqgeo-tf.techwave.com
+    paths: []
+  tls: []
+persistence:
+  accessModes:
+  - ReadWriteOnce
+  enabled: true
+  size: 50Gi
+  storageClass: efs
+replicaCount: 1
+resources:
+  limits:
+    cpu: "1"
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+service:
+  port: 80
+  type: LoadBalancer
+
+=== Helm Manifest (Deployment section) ===
+kind: Deployment
+metadata:
+  name: iqgeo-memcached
+  namespace: iqgeo
+  labels:
+    app.kubernetes.io/name: memcached
+    helm.sh/chart: memcached-6.1.9
+    app.kubernetes.io/instance: iqgeo
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: memcached
+      app.kubernetes.io/instance: iqgeo
+  replicas: 1
+  strategy:
+    rollingUpdate: {}
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: memcached
+        helm.sh/chart: memcached-6.1.9
+        app.kubernetes.io/instance: iqgeo
+        app.kubernetes.io/managed-by: Helm
+      annotations:
+    spec:
+      
+      affinity:
+        podAffinity:
+          
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: memcached
+                    app.kubernetes.io/instance: iqgeo
+                namespaces:
+                  - "iqgeo"
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+        nodeAffinity:
+          
+      securityContext:
+        fsGroup: 1001
+      serviceAccountName: default
+      containers:
+        - name: memcached
+          image: docker.io/bitnamilegacy/memcached:1.6.16-debian-11-r0
+          imagePullPolicy: "IfNotPresent"
+--
+kind: Deployment
+metadata:
+  name: iqgeo-platform
+  labels:
+    helm.sh/chart: iqgeo-platform-2.14.0
+    app.kubernetes.io/name: iqgeo-platform
+    app.kubernetes.io/instance: iqgeo
+    app.kubernetes.io/version: "7.0.0"
+    app.kubernetes.io/managed-by: Helm
+    app: iqgeo-platform
+    chart: iqgeo-platform-2.14.0
+    release: "iqgeo"
+    heritage: "Helm"
+spec:
+  selector:
+    matchLabels:
+      app: iqgeo-platform
+      namespace: iqgeo
+      release: "iqgeo"
+      app.kubernetes.io/name: iqgeo-platform
+      app.kubernetes.io/instance: iqgeo
+  template:
+    metadata:
+      name: iqgeo-platform
+      annotations:
+        checksum/config: 478a86ee23546a3f0f7cf69bdd3975a55b88d880c3d9b209f0d32c3b1c1e3f80
+      labels:
+        app.kubernetes.io/name: iqgeo-platform
+        app.kubernetes.io/instance: iqgeo
+        app: iqgeo-platform
+        namespace: iqgeo
+        release: "iqgeo"
+        heritage: "Helm"
+    spec:
+      imagePullSecrets:
+        - name: harbor-repository
+      serviceAccountName: iqgeo-platform
+      securityContext:
+        {}
+      initContainers:
+        - name: init-ensure-db-connection
+          image: "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3"
+          env:
+            
+            
+          envFrom:
+          - configMapRef:
+              name: iqgeo-platform-configmap
+              optional: false
+          command: [ 'bash', '-c', 'until pg_isready; do echo "ERROR: $MYW_DB_HOST:${MYW_DB_PORT:-5432} not accepting connections"; done' ]
+      containers:
+--
+    kind: Deployment
+    name: iqgeo-platform
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: 80
+          type: Utilization
+      type: Resource
+  behavior:
+    scaleDown:
+      policies:
+      - periodSeconds: 300
+        type: Pods
+        value: 1
+      stabilizationWindowSeconds: 300
+    scaleUp:
+      policies:
+      - periodSeconds: 25
+        type: Pods
+        value: 1
+      selectPolicy: Min
+      stabilizationWindowSeconds: 25
+---
+# Source: iqgeo-platform/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: "iqgeo-platform--worker-hpa"
+  labels:
+    helm.sh/chart: iqgeo-platform-2.14.0
+    app.kubernetes.io/name: iqgeo-platform
+    app.kubernetes.io/instance: iqgeo
+    app.kubernetes.io/version: "7.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: iqgeo-worker
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: 20
+          type: Utilization
+      type: Resource
+  behavior:
+    scaleDown:
+      policies:
+      - periodSeconds: 900
+        type: Pods
+        value: 1
+      stabilizationWindowSeconds: 3600
+    scaleUp:
+      policies:
+      - periodSeconds: 30
+        type: Pods
+        value: 1
+      stabilizationWindowSeconds: 60
+---
+# Source: iqgeo-platform/templates/auto-redeployment-cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: "iqgeo-platform-autoredeploy-cronjob"
+  namespace: iqgeo
+  labels:
+    helm.sh/chart: iqgeo-platform-2.14.0
+    app.kubernetes.io/name: iqgeo-platform
+    app.kubernetes.io/instance: iqgeo
+    app.kubernetes.io/version: "7.0.0"
+    app.kubernetes.io/managed-by: Helm
+    app: iqgeo-platform
+    chart: iqgeo-platform-2.14.0
+    release: "iqgeo"
+    heritage: "Helm"
+spec:
+  schedule: "00 00 * * 0"
+  jobTemplate:
+    spec:
+      backoffLimit: 5
+      template:
+        metadata:
+          annotations:
+          labels:
+        spec:
+
+=== Actual Deployment Spec ===
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: iqgeo-platform
+      app.kubernetes.io/instance: iqgeo
+--
+  replicas: 3
+  unavailableReplicas: 3
+  updatedReplicas: 3
+
+=== Pod Resource Requests ===
+./check-helm-values.sh: line 27: jq: command not found
+No pods found or jq not installed
+
