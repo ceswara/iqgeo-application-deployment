@@ -1,0 +1,32 @@
+=== Scale Deployment Script ===
+Date: Fri Feb 13 05:55:43 PM UTC 2026
+
+=== Current Deployment State ===
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+iqgeo-platform   0/3     3            0           7m58s
+
+Current replicas: 3
+
+=== Scaling deployment to 1 replica ===
+deployment.apps/iqgeo-platform scaled
+Scaled deployment to 1 replica
+
+Waiting 15 seconds for Kubernetes to process...
+
+=== Deployment State After Scaling ===
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+iqgeo-platform   0/1     1            0           8m13s
+
+New replicas: 1
+
+=== Pod Status ===
+NAME                              READY   STATUS    RESTARTS   AGE
+iqgeo-platform-65448dfd68-xv8gs   0/1     Pending   0          8m13s
+
+=== Summary ===
+Deployment replicas: 1
+Running pods: 0
+Pending pods: 1
+
+✅ Successfully scaled to 1 replica
+
