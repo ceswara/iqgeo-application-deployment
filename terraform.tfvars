@@ -62,3 +62,27 @@ resources = {
 
 # Replica Configuration
 replica_count = 1  # Reduced to 1 to fit on-prem cluster resources
+
+# Force override using Helm --set (in case chart ignores values)
+set_values = [
+  {
+    name  = "replicaCount"
+    value = "1"
+  },
+  {
+    name  = "resources.requests.memory"
+    value = "512Mi"
+  },
+  {
+    name  = "resources.requests.cpu"
+    value = "500m"
+  },
+  {
+    name  = "resources.limits.memory"
+    value = "1Gi"
+  },
+  {
+    name  = "resources.limits.cpu"
+    value = "1"
+  }
+]
