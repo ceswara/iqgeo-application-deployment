@@ -64,6 +64,7 @@ resources = {
 replica_count = 1  # Reduced to 1 to fit on-prem cluster resources
 
 # Force override using Helm --set (in case chart ignores values)
+# Also disable HPA or set minReplicas to 1 (HPA was forcing 3 replicas)
 set_values = [
   {
     name  = "replicaCount"
@@ -84,5 +85,19 @@ set_values = [
   {
     name  = "resources.limits.cpu"
     value = "1"
-  }
+  },
+  # Disable HPA or set minReplicas to 1 (HPA was overriding replicaCount)
+  {
+    name  = "autoscaling.enabled"
+    value = "false"
+  },
+  # Alternative: if autoscaling.enabled doesn't work, try these:
+  # {
+  #   name  = "autoscaling.minReplicas"
+  #   value = "1"
+  # },
+  # {
+  #   name  = "hpa.enabled"
+  #   value = "false"
+  # }
 ]
