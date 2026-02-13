@@ -48,6 +48,7 @@ echo "" >> "$OUTPUT_FILE"
 # Step 5: Apply the fix
 echo "=== STEP 5: Applying Terraform Fix ===" | tee -a "$OUTPUT_FILE"
 echo "[$(date)] Running: terraform apply -replace=helm_release.iqgeo" | tee -a "$OUTPUT_FILE"
+echo "Note: Using set_values to force override replicaCount and resources" | tee -a "$OUTPUT_FILE"
 terraform apply -replace=helm_release.iqgeo -auto-approve >> "$OUTPUT_FILE" 2>&1
 APPLY_EXIT_CODE=$?
 echo "" >> "$OUTPUT_FILE"
