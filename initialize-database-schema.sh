@@ -117,9 +117,9 @@ fi
 
 # Initialize/Upgrade IQGeo Core Platform schema (Platform 7.3)
 echo "6. Initializing IQGeo Core Platform schema (version 7.3.0)..."
-echo "   Running: myw_db $DB_NAME install core 730"
+echo "   Running: myw_db $DB_NAME upgrade core"
 kubectl exec -n $TEMP_NAMESPACE iqgeo-db-init -- bash -c \
-  '/opt/iqgeo/platform/Tools/myw_db $MYW_DB_NAME install core 730' 2>&1 | tee /tmp/init-core-output.txt
+  '/opt/iqgeo/platform/Tools/myw_db $MYW_DB_NAME upgrade core' 2>&1 | tee /tmp/init-core-output.txt
 
 CORE_EXIT=$?
 if [ $CORE_EXIT -eq 0 ]; then
@@ -128,8 +128,9 @@ elif grep -q "No new upgrades to apply" /tmp/init-core-output.txt; then
     echo "   ℹ Core schema already up to date"
 else
     echo "   ✗ Core platform initialization failed (exit code: $CORE_EXIT)"
-    echo "   Check output in /tmp/init-core-output.txt"
+    echo "   Output:"
     cat /tmp/init-core-output.txt
+    echo ""
     read -p "Continue with Network Manager Telecom initialization anyway? (y/n): " CONTINUE_COMMS
     if [ "$CONTINUE_COMMS" != "y" ]; then
         kubectl delete namespace $TEMP_NAMESPACE --wait=false
@@ -140,9 +141,9 @@ echo ""
 
 # Initialize/Upgrade Network Manager Telecom schema (NMT 7.3.3.5)
 echo "7. Initializing Network Manager Telecom schema (version 7.3.3.5)..."
-echo "   Running: myw_db $DB_NAME install comms 7335"
+echo "   Running: myw_db $DB_NAME upgrade comms"
 kubectl exec -n $TEMP_NAMESPACE iqgeo-db-init -- bash -c \
-  '/opt/iqgeo/platform/Tools/myw_db $MYW_DB_NAME install comms 7335' 2>&1 | tee /tmp/init-comms-output.txt
+  '/opt/iqgeo/platform/Tools/myw_db $MYW_DB_NAME upgrade comms' 2>&1 | tee /tmp/init-comms-output.txt
 
 COMMS_EXIT=$?
 if [ $COMMS_EXIT -eq 0 ]; then
@@ -151,7 +152,7 @@ elif grep -q "No new upgrades to apply" /tmp/init-comms-output.txt; then
     echo "   ℹ Comms schema already up to date"
 else
     echo "   ✗ Network Manager Telecom initialization failed (exit code: $COMMS_EXIT)"
-    echo "   Check output in /tmp/init-comms-output.txt"
+    echo "   Output:"
     cat /tmp/init-comms-output.txt
 fi
 echo ""
