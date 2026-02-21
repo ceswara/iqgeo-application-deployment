@@ -87,44 +87,54 @@ resource "helm_release" "iqgeo" {
   depends_on = [null_resource.helm_registry_login]
 
   # Values from variables
+  # NOTE: IQGeo chart expects values under 'platform' key
   values = [
     yamlencode({
-      # Image configuration
+      # Image configuration (at root level)
       image = {
         repository = var.image_repository
         tag        = var.image_tag
         pullPolicy = var.image_pull_policy
       }
 
-      # Image pull secrets
+      # Image pull secrets (at root level)
       imagePullSecrets = var.image_pull_secrets != "" ? [var.image_pull_secrets] : []
 
-      # Database configuration
-      database = {
-        host     = var.db_host
-        port     = var.db_port
-        user     = var.db_user
-        password = var.db_password
-        name     = var.db_name
+      # Platform-specific configuration (nested under 'platform')
+      platform = {
+        # Database configuration
+        database = {
+          host     = var.db_host
+          port     = var.db_port
+          user     = var.db_user
+          password = var.db_password
+          name     = var.db_name
+        }
+
+        # Storage configuration
+        # Use local-path storage (efs StorageClass) - no NFS needed.
+        # local-path provisioner only supports ReadWriteOnce access mode.
+        persistence = {
+          enabled      = true
+          storageClass = var.storage_class  # "efs" which uses local-path provisioner
+          size         = var.storage_size
+          accessModes  = ["ReadWriteOnce"]  # Required for local-path provisioner
+        }
+
+        # Resource limits
+        resources = var.resources
+
+        # Replica count
+        replicaCount = var.replica_count
       }
 
-      # Storage configuration
-      # Use local-path storage (efs StorageClass) - no NFS needed.
-      # local-path provisioner only supports ReadWriteOnce access mode.
-      persistence = {
-        enabled      = true
-        storageClass = var.storage_class  # "efs" which uses local-path provisioner
-        size         = var.storage_size
-        accessModes  = ["ReadWriteOnce"]  # Required for local-path provisioner
-      }
-
-      # Service configuration
+      # Service configuration (at root level)
       service = {
         type = var.service_type
         port = var.service_port
       }
 
-      # Ingress configuration
+      # Ingress configuration (at root level)
       # The chart expects .Values.ingress to always be an object and checks .enabled.
       # When disabled, send { enabled = false } instead of null to avoid nil-pointer errors.
       ingress = var.ingress_enabled ? {
@@ -161,12 +171,6 @@ resource "helm_release" "iqgeo" {
         ]
         tls       = []
       }
-
-      # Resource limits
-      resources = var.resources
-
-      # Replica count
-      replicaCount = var.replica_count
 
       # Additional values (if provided)
       extra = var.extra_values

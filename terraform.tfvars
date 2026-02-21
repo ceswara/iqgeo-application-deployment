@@ -63,37 +63,34 @@ resources = {
 # Replica Configuration
 replica_count = 1  # Reduced to 1 to fit on-prem cluster resources
 
-# Force override using Helm --set (in case chart ignores values)
-# Also disable HPA or set minReplicas to 1 (HPA was forcing 3 replicas)
+# Force override using Helm --set (chart expects values under 'platform' key)
 set_values = [
   {
-    name  = "replicaCount"
+    name  = "platform.replicaCount"
     value = "1"
   },
   {
-    name  = "resources.requests.memory"
+    name  = "platform.resources.requests.memory"
     value = "512Mi"
   },
   {
-    name  = "resources.requests.cpu"
+    name  = "platform.resources.requests.cpu"
     value = "500m"
   },
   {
-    name  = "resources.limits.memory"
+    name  = "platform.resources.limits.memory"
     value = "1Gi"
   },
   {
-    name  = "resources.limits.cpu"
+    name  = "platform.resources.limits.cpu"
     value = "1"
   },
-  # Disable HPA or set minReplicas to 1 (HPA was overriding replicaCount)
+  {
+    name  = "platform.persistence.accessModes[0]"
+    value = "ReadWriteOnce"
+  },
   {
     name  = "autoscaling.enabled"
     value = "false"
-  },
-  # Fix PVC access mode - chart is creating ReadWriteMany, force ReadWriteOnce
-  {
-    name  = "persistence.accessModes[0]"
-    value = "ReadWriteOnce"
   }
 ]
