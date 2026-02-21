@@ -1,74 +1,74 @@
-# Setup Database and Deploy Application
+# ✅ Database Created! Now Check Schema
 
-## Automated Database Setup & Configuration
+## Database Setup Complete!
 
-This script will create a fresh PostgreSQL database with proper credentials and configure the application automatically.
+✅ Database user `iqgeo` created  
+✅ Database `iqgeo` created  
+✅ Password authentication working  
+✅ Application connecting to database  
+
+**New Password:** `IQGeoXHKtCMFtrPRrjV012026!` (saved in previous output)
 
 ---
 
-## On Your Server - Run This:
+## ⚠️ New Issue: Missing Database Table
+
+The application is failing because it expects a table called `setting` that doesn't exist yet.
+
+**Error:** `sqlalchemy.exc.NoSuchTableError: setting`
+
+This suggests the database schema needs to be initialized.
+
+---
+
+## On Your Server - Check Database Schema:
 
 ```bash
 cd /opt/iqgeo-application-deployment
 git pull
 
-# Run the automated setup (requires SSH access to database server)
-./setup-database-and-patch.sh
+# Check what's in the database and why schema is missing
+./check-database-schema.sh
 
 # Push results
-git add database-setup-output.txt
-git commit -m "Database setup completed"
+git add database-schema-check.txt
+git commit -m "Database schema check"
 git push
 ```
 
 ---
 
-## What This Script Does:
+## What to Check:
 
-1. ✅ Generates a secure random password
-2. ✅ Connects to PostgreSQL server (10.42.42.9) via SSH
-3. ✅ Creates database user `iqgeo` with the new password
-4. ✅ Creates database `iqgeo` owned by `iqgeo` user
-5. ✅ Grants all necessary privileges
-6. ✅ Tests the database connection
-7. ✅ Updates ConfigMap with correct credentials
-8. ✅ Restarts the pod
-9. ✅ Monitors startup and shows status
-10. ✅ Displays the new credentials (save them!)
+1. Is the database empty (no tables)?
+2. Does the application need a pre-existing schema?
+3. Are there SQL migration scripts that need to run?
+4. Does IQGeo require an initial database dump/backup to be imported?
 
----
-
-## Requirements:
-
-- ✅ SSH access configured: `root@10.42.42.9` (using SSH keys)
-- ✅ Sudo privileges on database server
-- ✅ PostgreSQL installed on 10.42.42.9
-
-**Note:** The script uses `scp` and `ssh` with your authorized keys to connect as `root@10.42.42.9`.
+The check script will:
+- ✅ List all tables in the database
+- ✅ Show application logs with full error details
+- ✅ Check for initialization scripts
+- ✅ Provide guidance on next steps
 
 ---
 
-## After Script Completes:
+## Possible Solutions:
 
-The script will display the new database credentials. **Save them securely!**
+### Option 1: Application Auto-Creates Schema
+Wait longer - the application might be in the process of creating tables. Check logs after a few minutes.
 
-Then optionally update your terraform.tfvars files for future deployments:
-1. `/opt/iqgeo-onprem-deployment/terraform/terraform.tfvars` (line 24)
-2. `/opt/iqgeo-application-deployment/terraform.tfvars` (line 31)
-
----
-
-## If Pod Needs More Time:
-
+### Option 2: Manual Schema Import
+If you have an initial database schema file or backup:
 ```bash
-# Continue monitoring
-./wait-for-ready.sh
-
-# Push results
-git add ready-status.txt
-git commit -m "Pod ready status"
-git push
+# On database server
+scp schema.sql root@10.42.42.9:/tmp/
+ssh root@10.42.42.9
+PGPASSWORD='IQGeoXHKtCMFtrPRrjV012026!' psql -h localhost -U iqgeo -d iqgeo -f /tmp/schema.sql
 ```
+
+### Option 3: Check IQGeo Documentation
+The application might require specific initialization steps or migrations to be run first.
 
 ---
 
