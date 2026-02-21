@@ -49,12 +49,14 @@ EOF
 echo "Created SQL setup script: /tmp/setup_iqgeo_db.sql"
 echo ""
 
-echo "Step 2: Executing SQL on database server..."
-echo "NOTE: This requires SSH access to 10.42.42.9 and sudo privileges"
+echo "Step 2: Executing SQL on database server via SSH as root..."
+echo "Connecting to root@10.42.42.9..."
 echo ""
 
-# Execute SQL on database server
-ssh root@10.42.42.9 "sudo -u postgres psql < /dev/stdin" < /tmp/setup_iqgeo_db.sql
+# Copy SQL file to database server and execute
+scp /tmp/setup_iqgeo_db.sql root@10.42.42.9:/tmp/setup_iqgeo_db.sql
+ssh root@10.42.42.9 "sudo -u postgres psql -f /tmp/setup_iqgeo_db.sql"
+ssh root@10.42.42.9 "rm -f /tmp/setup_iqgeo_db.sql"
 
 echo "✅ Database and user created successfully"
 echo ""
