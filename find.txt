@@ -1,0 +1,92 @@
+==========================================
+Finding Comms Upgrade Version
+==========================================
+
+1. Creating temporary pod...
+namespace/comms-check-1771697862 created
+secret/harbor-repository created
+pod/comms-check created
+   Waiting for pod to be ready...
+pod/comms-check condition met
+
+2. Searching entire container for comms upgrade files...
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms_cloud/server/db_schema/comms_cloud_database_upgrade_150.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms_cloud/server/db_schema/comms_cloud_database_upgrade_190.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms_cloud/server/db_schema/comms_cloud_database_upgrade.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms_cloud/server/db_schema/comms_cloud_database_upgrade_110.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms_cloud/server/db_schema/comms_cloud_database_upgrade_130.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms_cloud/server/db_schema/comms_cloud_database_upgrade_120.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms_cloud/server/db_schema/comms_cloud_database_upgrade_140.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms_cloud/server/db_schema/comms_cloud_database_upgrade_170.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms_cloud/server/db_schema/comms_cloud_database_upgrade_160.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms_cloud/server/db_schema/comms_cloud_database_upgrade_180.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_6525.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_6526.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_7030.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_6221.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_7132.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_6222.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_6120.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_7233.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_7335.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_6322.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_6423.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_7334.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_6323.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_6424.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_7026.py
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema/comms_database_upgrade_7131.py
+
+3. Checking WebApps directory structure...
+total 36
+drwxr-xr-x 1 www-data www-data 4096 Jan 29 11:09 .
+drwxr-xr-x 1 www-data www-data 4096 Feb  1 08:23 ..
+drwxr-xr-x 1 www-data www-data 4096 Feb  1 08:23 myworldapp
+drwxr-xr-x 2 www-data www-data 4096 Jan 29 10:33 myworldapp.egg-info
+-rw-r--r-- 1 www-data www-data 8361 Jan 29 10:35 myworldapp.ini
+-rw-r--r-- 1 www-data www-data 2493 Jan 29 10:33 myworldapp.wsgi
+-rw-r--r-- 1 www-data www-data 1183 Jan 29 10:33 requirements.txt
+
+4. If 'comms' directory exists, check it:
+   (comms directory not found)
+
+5. Check for edition-specific upgrade modules:
+/opt/iqgeo/platform/WebApps/myworldapp/modules/extract_management/server/db_schema
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comsof/server/db_schema
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms_cloud/server/db_schema
+/opt/iqgeo/platform/WebApps/myworldapp/modules/comms/server/db_schema
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema
+
+6. List all upgrade modules across all WebApps:
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/database/myw_upgrade_manager.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/database/myw_database_upgrade.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_440.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_640.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_500.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_620.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_610.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_720.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_650.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_510.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_730.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_700.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_710.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_430.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_520.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_630.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_PLAT11725.cpython-310-x86_64-linux-gnu.so
+/opt/iqgeo/platform/WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade_600.cpython-310-x86_64-linux-gnu.so
+
+7. Try to run upgrade with 'nmt' or 'comms' to see error message:
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+No new upgrades to apply
+
+8. Cleaning up...
+namespace "comms-check-1771697862" deleted
+
+==========================================
+Search Complete
+==========================================
+
