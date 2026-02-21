@@ -100,9 +100,18 @@ resource "helm_release" "iqgeo" {
       # Image pull secrets (at root level)
       imagePullSecrets = var.image_pull_secrets != "" ? [var.image_pull_secrets] : []
 
+      # Database configuration (at root level - for ConfigMap)
+      database = {
+        host     = var.db_host
+        port     = var.db_port
+        user     = var.db_user
+        password = var.db_password
+        name     = var.db_name
+      }
+
       # Platform-specific configuration (nested under 'platform')
       platform = {
-        # Database configuration
+        # Database configuration (also under platform for consistency)
         database = {
           host     = var.db_host
           port     = var.db_port
