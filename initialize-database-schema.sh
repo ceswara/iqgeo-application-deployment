@@ -116,10 +116,11 @@ if [ "$CURRENT_TABLES" -gt 0 ]; then
 fi
 
 # Initialize/Upgrade IQGeo Core Platform schema (Platform 7.3)
+# For a fresh empty database, use 'install' to create base tables, then 'upgrade' to update
 echo "6. Initializing IQGeo Core Platform schema (version 7.3.0)..."
-echo "   Running: myw_db $DB_NAME upgrade core"
+echo "   Running: myw_db $DB_NAME install"
 kubectl exec -n $TEMP_NAMESPACE iqgeo-db-init -- bash -c \
-  '/opt/iqgeo/platform/Tools/myw_db $MYW_DB_NAME upgrade core' 2>&1 | tee /tmp/init-core-output.txt
+  '/opt/iqgeo/platform/Tools/myw_db $MYW_DB_NAME install' 2>&1 | tee /tmp/init-core-output.txt
 
 CORE_EXIT=$?
 if [ $CORE_EXIT -eq 0 ]; then
@@ -140,6 +141,7 @@ fi
 echo ""
 
 # Initialize/Upgrade Network Manager Telecom schema (NMT 7.3.3.5)
+# After core install, run upgrade to add comms-specific tables
 echo "7. Initializing Network Manager Telecom schema (version 7.3.3.5)..."
 echo "   Running: myw_db $DB_NAME upgrade comms"
 kubectl exec -n $TEMP_NAMESPACE iqgeo-db-init -- bash -c \
