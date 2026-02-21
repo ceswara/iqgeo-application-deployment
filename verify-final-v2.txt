@@ -8,7 +8,7 @@ Database Configuration:
   User: iqgeo
 
 1. Creating temporary verification pod...
-namespace/db-verify-1771698724 created
+namespace/db-verify-1771698938 created
 secret/harbor-repository created
 pod/db-verify created
    Waiting for pod to be ready...
@@ -54,7 +54,7 @@ Did not find any relations.
 
 
 8. Cleaning up...
-namespace "db-verify-1771698724" deleted
+namespace "db-verify-1771698938" deleted
 
 ==========================================
 Verification Complete
