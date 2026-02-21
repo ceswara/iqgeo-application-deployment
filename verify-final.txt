@@ -1,0 +1,85 @@
+==========================================
+Database Table Verification
+==========================================
+
+Database Configuration:
+  Host: 10.42.42.9:5432
+  Database: iqgeo
+  User: iqgeo
+
+1. Creating temporary verification pod...
+namespace/db-verify-1771698351 created
+secret/harbor-repository created
+pod/db-verify created
+   Waiting for pod to be ready...
+pod/db-verify condition met
+
+2. Testing database connection...
+psql: error: connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+command terminated with exit code 2
+
+3. Counting tables in database...
+psql: error: connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+command terminated with exit code 2
+   Total tables: 
+
+4. Listing all tables in database:
+psql: error: connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+command terminated with exit code 2
+
+5. Checking for critical IQGeo tables:
+psql: error: connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+command terminated with exit code 2
+   ✗ setting - MISSING
+psql: error: connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+command terminated with exit code 2
+   ✗ datasource - MISSING
+psql: error: connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+command terminated with exit code 2
+   ✗ myw_user - MISSING
+psql: error: connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+command terminated with exit code 2
+   ✗ myw_feature_type - MISSING
+psql: error: connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+command terminated with exit code 2
+   ✗ mywcom_fiber_segment - MISSING
+
+6. Checking application ConfigMap database settings:
+    MYW_DB_NAME: iqgeo
+    MYW_DB_PASSWORD: iqgeo
+    MYW_DB_PORT: "5432"
+    MYW_DB_USERNAME: postgres
+    MYW_TASK_TIMEOUT: "1800"
+    NODE_OPTIONS: --max_old_space_size=2048
+    PGDATABASE: postgres
+    PGPASSWORD: iqgeo
+    PGPORT: "5432"
+    PGUSER: postgres
+    REPLICATION_SYNC_URL: https://iqgeo-tf.techwave.com
+    RQ_REDIS_URL: redis://iqgeo-redis-master:6379/0
+
+7. Listing all databases on the server:
+psql: error: connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+command terminated with exit code 2
+
+8. Cleaning up...
+namespace "db-verify-1771698351" deleted
+
+==========================================
+Verification Complete
+==========================================
+
+./verify-database-tables.sh: line 119: [: : integer expression expected
+Database has  tables
+
+./verify-database-tables.sh: line 135: [: : integer expression expected
+
