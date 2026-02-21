@@ -99,5 +99,10 @@ set_values = [
   {
     name  = "platform.autoscaling.enabled"
     value = "false"
+  },
+  # Force correct imagePullSecrets name
+  {
+    name  = "imagePullSecrets[0].name"
+    value = "harbor-repository"
   }
 ]
