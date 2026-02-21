@@ -1,55 +1,85 @@
-# Wait for Pod to Become Ready
+# FIX REQUIRED: Database Password is Wrong!
 
-## ✅ ConfigMap Fixed! Database Connected!
+## ❌ Issue: Password Authentication Failed
 
-The pod is now **Running** and initializing. It needs time to complete startup.
+The application can connect to the database but the password is incorrect:
+```
+FATAL: password authentication failed for user "iqgeo"
+```
 
-## On Your Server - Run This:
+## Root Cause:
+We accidentally used the **Harbor password** instead of the **PostgreSQL password**.
+
+---
+
+## On Your Server - Do This:
+
+### Step 1: Find the Correct Database Password
+
+Check what password was set up on database server `10.42.42.9`:
+
+**Option A: Check database server directly**
+```bash
+ssh 10.42.42.9
+sudo -u postgres psql -c "\\du"  # List database users
+```
+
+**Option B: If user doesn't exist, create it**
+```bash
+ssh 10.42.42.9
+sudo -u postgres psql
+```
+```sql
+CREATE USER iqgeo WITH PASSWORD 'YOUR_CHOSEN_PASSWORD';
+CREATE DATABASE iqgeo OWNER iqgeo;
+GRANT ALL PRIVILEGES ON DATABASE iqgeo TO iqgeo;
+\q
+```
+
+### Step 2: Update Password in ConfigMap
+
+Replace `THE_ACTUAL_PASSWORD` with the real password:
 
 ```bash
 cd /opt/iqgeo-application-deployment
-git pull
 
-# Wait for pod to become ready (checks every 15 seconds, up to 5 minutes)
-./wait-for-ready.sh
+kubectl patch configmap iqgeo-platform-configmap -n iqgeo --type merge -p '{
+  "data": {
+    "MYW_DB_PASSWORD": "THE_ACTUAL_PASSWORD",
+    "PGPASSWORD": "THE_ACTUAL_PASSWORD"
+  }
+}'
 
-# Push the results back
-git add ready-status.txt
-git commit -m "Pod ready status"
-git push
+# Restart pod
+kubectl delete pod -n iqgeo -l app=iqgeo-platform
+
+# Wait and check
+sleep 60
+kubectl get pods -n iqgeo
+kubectl logs -n iqgeo -l app=iqgeo-platform --tail=30
 ```
 
----
+### Step 3: Update terraform.tfvars Files (Optional - for future deployments)
 
-## What This Does:
+**On server - Edit both files:**
+1. `/opt/iqgeo-onprem-deployment/terraform/terraform.tfvars` - Line 24
+2. `/opt/iqgeo-application-deployment/terraform.tfvars` - Line 31
 
-1. ✅ Monitors pod status every 15 seconds
-2. ✅ Shows logs and status updates
-3. ✅ Waits up to 5 minutes for pod to become Ready
-4. ✅ Shows service and LoadBalancer status when ready
-5. ✅ Alerts if pod is crashing (>10 restarts)
+Change: `db_password = "THE_ACTUAL_PASSWORD"`
 
 ---
 
-## Current Status:
-
-- ✅ ConfigMap: Fixed with correct database values
-- ✅ Init Container: Successfully connected to database
-- ✅ Main Container: Running and initializing
-- ⏳ Pod Ready: Waiting for application startup to complete
-
----
-
-## To Check Status Manually:
+## After Password Fix:
 
 ```bash
-# Quick check
-kubectl get pods -n iqgeo
+cd /opt/iqgeo-application-deployment
 
-# Detailed check
-./check-deployment-now.sh
-git add deployment-check-*.txt
-git commit -m "Deployment check"
+# Wait for pod to become ready
+./wait-for-ready.sh
+
+# Push results
+git add ready-status.txt
+git commit -m "Post password fix status"
 git push
 ```
 
