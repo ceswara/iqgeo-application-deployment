@@ -1,0 +1,212 @@
+=========================================
+Fixing Missing PVC Issue - Sat Feb 21 03:31:15 PM UTC 2026
+=========================================
+
+Step 1: Check current PVC status...
+No resources found in iqgeo namespace.
+
+Step 2: Check if PVC is stuck in terminating state...
+PVC Status: Error from server (NotFound): persistentvolumeclaims "iqgeo-platform-shared-data" not found
+NotFound
+
+PVC does not exist - checking if PV exists...
+pvc-e8d09926-a16e-43fe-bef0-9c35cc79d570   50Gi       RWO            Retain           Released   iqgeo/iqgeo-platform-shared-data   efs                     10h
+pvc-ef515be5-118d-49df-a991-4871e45dbb9e   50Gi       RWO            Retain           Released   iqgeo/iqgeo-platform-shared-data   efs                     10h
+
+Step 3: Checking Helm release for PVC configuration...
+  persistence:
+    accessMode: ReadWriteOnce
+    accessModes:
+    - ReadWriteOnce
+    enabled: true
+    size: 50Gi
+    storageClass: efs
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 1
+
+Step 4: Force Helm to recreate resources...
+Scaling deployment to 0 first...
+deployment.apps/iqgeo-platform scaled
+Deleting the Helm release completely...
+release "iqgeo" uninstalled
+Step 5: Reapplying with Terraform...
+[0m[1mnull_resource.helm_registry_login[0]: Refreshing state... [id=7183044719346953613][0m
+[0m[1mhelm_release.iqgeo: Refreshing state... [id=iqgeo][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # helm_release.iqgeo[0m will be created
+[0m  [32m+[0m[0m resource "helm_release" "iqgeo" {
+      [32m+[0m[0m atomic                     = false
+      [32m+[0m[0m chart                      = "oci://harbor.delivery.iqgeo.cloud/helm/iqgeo-platform"
+      [32m+[0m[0m cleanup_on_fail            = false
+      [32m+[0m[0m create_namespace           = false
+      [32m+[0m[0m dependency_update          = false
+      [32m+[0m[0m disable_crd_hooks          = false
+      [32m+[0m[0m disable_openapi_validation = false
+      [32m+[0m[0m disable_webhooks           = false
+      [32m+[0m[0m force_update               = false
+      [32m+[0m[0m id                         = (known after apply)
+      [32m+[0m[0m lint                       = false
+      [32m+[0m[0m manifest                   = (known after apply)
+      [32m+[0m[0m max_history                = 0
+      [32m+[0m[0m metadata                   = (known after apply)
+      [32m+[0m[0m name                       = "iqgeo"
+      [32m+[0m[0m namespace                  = "iqgeo"
+      [32m+[0m[0m pass_credentials           = false
+      [32m+[0m[0m recreate_pods              = false
+      [32m+[0m[0m render_subchart_notes      = true
+      [32m+[0m[0m replace                    = false
+      [32m+[0m[0m reset_values               = false
+      [32m+[0m[0m reuse_values               = false
+      [32m+[0m[0m skip_crds                  = false
+      [32m+[0m[0m status                     = "deployed"
+      [32m+[0m[0m timeout                    = 1800
+      [32m+[0m[0m values                     = [
+          [32m+[0m[0m (sensitive value),
+        ]
+      [32m+[0m[0m verify                     = false
+      [32m+[0m[0m version                    = "2.14.0"
+      [32m+[0m[0m wait                       = false
+      [32m+[0m[0m wait_for_jobs              = false
+
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "database.host"
+          [32m+[0m[0m value = "10.42.42.9"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "database.name"
+          [32m+[0m[0m value = "iqgeo"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "database.password"
+          [32m+[0m[0m value = "6hPfVGmi9gMMhhmE5pR64xDz4ahcQnvg"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "database.port"
+          [32m+[0m[0m value = "5432"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "database.user"
+          [32m+[0m[0m value = "iqgeo"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "imagePullSecrets[0].name"
+          [32m+[0m[0m value = "harbor-repository"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.autoscaling.enabled"
+          [32m+[0m[0m value = "false"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.database.host"
+          [32m+[0m[0m value = "10.42.42.9"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.database.name"
+          [32m+[0m[0m value = "iqgeo"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.database.password"
+          [32m+[0m[0m value = "6hPfVGmi9gMMhhmE5pR64xDz4ahcQnvg"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.database.port"
+          [32m+[0m[0m value = "5432"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.database.user"
+          [32m+[0m[0m value = "iqgeo"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.persistence.accessMode"
+          [32m+[0m[0m value = "ReadWriteOnce"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.persistence.accessModes[0]"
+          [32m+[0m[0m value = "ReadWriteOnce"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.replicaCount"
+          [32m+[0m[0m value = "1"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.resources.limits.cpu"
+          [32m+[0m[0m value = "1"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.resources.limits.memory"
+          [32m+[0m[0m value = "1Gi"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.resources.requests.cpu"
+          [32m+[0m[0m value = "500m"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.resources.requests.memory"
+          [32m+[0m[0m value = "512Mi"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+    }
+
+[1mPlan:[0m [0m1 to add, 0 to change, 0 to destroy.
+[0m[1mhelm_release.iqgeo: Creating...[0m[0m
+[0m[1mhelm_release.iqgeo: Creation complete after 3s [id=iqgeo][0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.[0m
+[0m[1m[32m
+Outputs:
+
+[0mapplication_url = "Check service: kubectl get svc -n iqgeo"
+namespace = "iqgeo"
+release_name = "iqgeo"
+status = "deployed"
+version = "2.14.0"
+
+Step 6: Waiting 30 seconds for resources to be created...
+Step 7: Checking PVC status...
+NAME                         STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+iqgeo-platform-shared-data   Bound    pvc-949ce733-0ccb-4c3a-bf06-d97f0bf26153   50Gi       RWO            efs            31s
+
+Step 8: Checking pod status...
+NAME                               READY   STATUS     RESTARTS   AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running    0          31s
+iqgeo-platform-6bccdd6fd6-2ksdh    0/1     Init:0/1   0          31s
+
+
+Step 9: Check storage class...
+NAME            PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+efs             rancher.io/local-path   Retain          WaitForFirstConsumer   true                   10d
+iqgeo-storage   rancher.io/local-path   Retain          WaitForFirstConsumer   true                   22d
+
+Step 10: Check local-path-provisioner...
+NAME                                      READY   STATUS    RESTARTS   AGE
+local-path-provisioner-844bd8758f-8cpkb   1/1     Running   0          22d
+
+=========================================
+Fix Complete - Sat Feb 21 03:32:12 PM UTC 2026
+=========================================
