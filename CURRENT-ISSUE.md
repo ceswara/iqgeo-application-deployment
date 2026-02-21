@@ -30,29 +30,24 @@ Added Helm override to force the correct imagePullSecret name:
 
 ## Next Steps on Server
 
-1. **Pull the fix:**
+1. **Pull the latest verification script:**
 ```bash
 cd /path/to/iqgeo-application-deployment
 git pull
 ```
 
-2. **Apply the fix:**
+2. **Run verification to diagnose the issue:**
 ```bash
-./fix-imagepullsecret.sh
-```
-
-OR manually:
-```bash
-terraform apply -replace=helm_release.iqgeo
-```
-
-3. **Validate:**
-```bash
-./deploy-and-validate.sh
-git add deployment-status.txt
-git commit -m "Post-fix validation"
+./verify-imagepullsecret.sh > verify-output.txt 2>&1
+git add verify-output.txt
+git commit -m "ImagePullSecret verification results"
 git push
 ```
+
+This will check:
+- What imagePullSecret the deployment is actually using
+- If the harbor-repository secret exists and has correct format
+- If Harbor credentials can authenticate successfully
 
 ## Expected Outcome
 After applying the fix:
