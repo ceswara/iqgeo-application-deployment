@@ -1,0 +1,153 @@
+[0m[1mnull_resource.helm_registry_login[0]: Refreshing state... [id=7183044719346953613][0m
+[0m[1mhelm_release.iqgeo: Refreshing state... [id=iqgeo][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [33m~[0m update in-place[0m
+
+Terraform will perform the following actions:
+
+[1m  # helm_release.iqgeo[0m will be updated in-place
+[0m  [33m~[0m[0m resource "helm_release" "iqgeo" {
+        id                         = "iqgeo"
+      [33m~[0m[0m metadata                   = [
+          [31m-[0m[0m {
+              [31m-[0m[0m app_version    = "7.0.0"
+              [31m-[0m[0m chart          = "iqgeo-platform"
+              [31m-[0m[0m first_deployed = 1771687900
+              [31m-[0m[0m last_deployed  = 1771696628
+              [31m-[0m[0m name           = "iqgeo"
+              [31m-[0m[0m namespace      = "iqgeo"
+              [31m-[0m[0m notes          = <<-EOT
+                    1. Get the application URL by running these commands:
+                         NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+                               You can watch the status of by running 'kubectl get --namespace iqgeo svc -w iqgeo-iqgeo-platform'
+                      export SERVICE_IP=$(kubectl get svc --namespace iqgeo iqgeo-iqgeo-platform --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+                      echo http://$SERVICE_IP:80
+                    
+                    CHART NAME: memcached
+                    CHART VERSION: 6.1.9
+                    APP VERSION: 1.6.16
+                    
+                    ** Please be patient while the chart is being deployed **
+                    
+                    Memcached can be accessed via port 11211 on the following DNS name from within your cluster:
+                    
+                        iqgeo-memcached.iqgeo.svc.cluster.local
+                EOT
+              [31m-[0m[0m revision       = 2
+              [31m-[0m[0m values         = jsonencode(
+                    {
+                      [31m-[0m[0m database         = {
+                          [31m-[0m[0m host     = "10.42.42.9"
+                          [31m-[0m[0m name     = "iqgeo"
+                          [31m-[0m[0m password = "MrsIQGEO"
+                          [31m-[0m[0m port     = 5432
+                          [31m-[0m[0m user     = "iqgeo"
+                        }
+                      [31m-[0m[0m extra            = {}
+                      [31m-[0m[0m image            = {
+                          [31m-[0m[0m pullPolicy = "IfNotPresent"
+                          [31m-[0m[0m repository = "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud"
+                          [31m-[0m[0m tag        = "7.3"
+                        }
+                      [31m-[0m[0m imagePullSecrets = [
+                          [31m-[0m[0m {
+                              [31m-[0m[0m name = "harbor-repository"
+                            },
+                        ]
+                      [31m-[0m[0m ingress          = {
+                          [31m-[0m[0m className = [90mnull[0m[0m
+                          [31m-[0m[0m enabled   = false
+                          [31m-[0m[0m hosts     = [
+                              [31m-[0m[0m {
+                                  [31m-[0m[0m host  = "iqgeo-tf.techwave.com"
+                                  [31m-[0m[0m paths = []
+                                },
+                            ]
+                          [31m-[0m[0m tls       = []
+                        }
+                      [31m-[0m[0m platform         = {
+                          [31m-[0m[0m autoscaling  = {
+                              [31m-[0m[0m enabled = false
+                            }
+                          [31m-[0m[0m database     = {
+                              [31m-[0m[0m host     = "10.42.42.9"
+                              [31m-[0m[0m name     = "iqgeo"
+                              [31m-[0m[0m password = "MrsIQGEO"
+                              [31m-[0m[0m port     = 5432
+                              [31m-[0m[0m user     = "iqgeo"
+                            }
+                          [31m-[0m[0m persistence  = {
+                              [31m-[0m[0m accessMode   = "ReadWriteOnce"
+                              [31m-[0m[0m accessModes  = [
+                                  [31m-[0m[0m "ReadWriteOnce",
+                                ]
+                              [31m-[0m[0m enabled      = true
+                              [31m-[0m[0m size         = "50Gi"
+                              [31m-[0m[0m storageClass = "efs"
+                            }
+                          [31m-[0m[0m replicaCount = 1
+                          [31m-[0m[0m resources    = {
+                              [31m-[0m[0m limits   = {
+                                  [31m-[0m[0m cpu    = 1
+                                  [31m-[0m[0m memory = "1Gi"
+                                }
+                              [31m-[0m[0m requests = {
+                                  [31m-[0m[0m cpu    = "500m"
+                                  [31m-[0m[0m memory = "512Mi"
+                                }
+                            }
+                        }
+                      [31m-[0m[0m service          = {
+                          [31m-[0m[0m port = 80
+                          [31m-[0m[0m type = "LoadBalancer"
+                        }
+                    }
+                )
+              [31m-[0m[0m version        = "2.14.0"
+            },
+        ] -> (known after apply)
+        name                       = "iqgeo"
+      [33m~[0m[0m values                     = [
+          [33m~[0m[0m (sensitive value),
+        ]
+        [90m# (25 unchanged attributes hidden)[0m[0m
+
+      [31m-[0m[0m set {
+          [31m-[0m[0m name  = "database.password" [90m-> null[0m[0m
+          [31m-[0m[0m value = "MrsIQGEO" [90m-> null[0m[0m
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [31m-[0m[0m set {
+          [31m-[0m[0m name  = "platform.database.password" [90m-> null[0m[0m
+          [31m-[0m[0m value = "MrsIQGEO" [90m-> null[0m[0m
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "database.password"
+          [32m+[0m[0m value = "IQGeoXHKtCMFtrPRrjV012026!"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+      [32m+[0m[0m set {
+          [32m+[0m[0m name  = "platform.database.password"
+          [32m+[0m[0m value = "IQGeoXHKtCMFtrPRrjV012026!"
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+
+        [90m# (17 unchanged blocks hidden)[0m[0m
+    }
+
+[1mPlan:[0m [0m0 to add, 1 to change, 0 to destroy.
+[0m[1mhelm_release.iqgeo: Modifying... [id=iqgeo][0m[0m
+[0m[1mhelm_release.iqgeo: Modifications complete after 3s [id=iqgeo][0m
+[0m[1m[32m
+Apply complete! Resources: 0 added, 1 changed, 0 destroyed.[0m
+[0m[1m[32m
+Outputs:
+
+[0mapplication_url = "Check service: kubectl get svc -n iqgeo"
+namespace = "iqgeo"
+release_name = "iqgeo"
+status = "deployed"
+version = "2.14.0"
