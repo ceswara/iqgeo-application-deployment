@@ -1,0 +1,87 @@
+=========================================
+Checking IQGeo Initialization Options - Sat Feb 21 04:23:54 PM UTC 2026
+=========================================
+
+Step 1: Checking ConfigMap environment variables for init/setup flags...
+  DEBUG: "false"
+
+Step 2: Checking container environment variables...
+[
+    {
+        "name": "RQ_REDIS_URL",
+        "value": "redis://iqgeo-redis-master:6379/1"
+    },
+    {
+        "name": "SEND_ERROR_LOG_TO_STDERR",
+        "value": "YES"
+    },
+    {
+        "name": "SEND_ACCESS_LOG_TO_STDOUT",
+        "value": "YES"
+    },
+    {
+        "name": "APACHE_TIMEOUT",
+        "value": "1200"
+    }
+]
+
+Step 3: Checking if there's a database initialization command...
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+
+Step 4: Checking if there's a myw_db.py tool (seen in logs)...
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+error: unable to upgrade connection: container not found ("iqgeo-platform")
+
+Step 5: Looking for documentation or help in the container...
+Container not accessible
+
+Step 6: Checking entrypoint script...
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+error: unable to upgrade connection: container not found ("iqgeo-platform")
+
+Step 7: Check if there's a specific initialization entrypoint...
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+error: unable to upgrade connection: container not found ("iqgeo-platform")
+No entrypoint.d directory
+
+Step 8: Check logs for any 'usage' or 'help' messages...
+    MywDbCommand().run(*sys.argv[1:])
+  File "WebApps/myworldapp/core/server/commands/myw_command.py", line 52, in myworldapp.core.server.commands.myw_command.MywCommand.run
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 195, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.run_method
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 200, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.run_method
+  File "WebApps/myworldapp/core/server/commands/myw_command.py", line 66, in myworldapp.core.server.commands.myw_command.MywCommand.run_method
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 901, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.operation_list
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 2389, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.list_versions
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    MywDbCommand().run(*sys.argv[1:])
+  File "WebApps/myworldapp/core/server/commands/myw_command.py", line 52, in myworldapp.core.server.commands.myw_command.MywCommand.run
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 195, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.run_method
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 200, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.run_method
+  File "WebApps/myworldapp/core/server/commands/myw_command.py", line 66, in myworldapp.core.server.commands.myw_command.MywCommand.run_method
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 901, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.operation_list
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 2389, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.list_versions
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    MywDbCommand().run(*sys.argv[1:])
+  File "WebApps/myworldapp/core/server/commands/myw_command.py", line 52, in myworldapp.core.server.commands.myw_command.MywCommand.run
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 195, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.run_method
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 200, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.run_method
+
+=========================================
+RECOMMENDATIONS
+=========================================
+
+The application is failing during auto-initialization.
+
+Possible fixes:
+1. There might be an environment variable to skip auto-init
+2. The database might need to be pre-populated from a schema file
+3. Contact IQGeo support for proper first-time setup procedure
+
+From the logs, the application has:
+  - /opt/iqgeo/platform/Tools/myw_db.py (database tool)
+  - entrypoint.d/300-ensure-database.sh (database initialization)
+
+The entrypoint is trying to run 'myw_db.py initialize' which fails
+because it tries to access tables before creating them.
+
+=========================================
