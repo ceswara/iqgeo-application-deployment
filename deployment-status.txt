@@ -1,5 +1,5 @@
 =========================================
-IQGeo Deployment Status - Sat Feb 21 05:20:25 AM UTC 2026
+IQGeo Deployment Status - Sat Feb 21 05:23:53 AM UTC 2026
 =========================================
 
 MODE: STATUS - Just check current status
@@ -9,20 +9,20 @@ Run with 'fix' to apply fixes: ./deploy-and-validate.sh fix
   Status: Bound
   Access Mode: ReadWriteOnce
 NAME                         STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-iqgeo-platform-shared-data   Bound    pvc-e8d09926-a16e-43fe-bef0-9c35cc79d570   50Gi       RWO            efs            19m
+iqgeo-platform-shared-data   Bound    pvc-ef515be5-118d-49df-a991-4871e45dbb9e   50Gi       RWO            efs            38s
 
 === 2. Deployment Status ===
   Replicas: 1 (Ready: )
 NAME             READY   UP-TO-DATE   AVAILABLE   AGE
-iqgeo-platform   0/1     1            0           19m
+iqgeo-platform   0/1     1            0           39s
 
 === 3. Pods ===
 NAME                               READY   STATUS                  RESTARTS   AGE
-iqgeo-memcached-69d7fd799c-gh469   1/1     Running                 0          19m
-iqgeo-platform-6bccdd6fd6-ss42p    0/1     Init:ImagePullBackOff   0          19m
+iqgeo-memcached-69d7fd799c-5lg4t   1/1     Running                 0          39s
+iqgeo-platform-6bccdd6fd6-nkdwx    0/1     Init:ImagePullBackOff   0          39s
 
 === 4. Pod Events/Issues ===
---- pod/iqgeo-platform-6bccdd6fd6-ss42p ---
+--- pod/iqgeo-platform-6bccdd6fd6-nkdwx ---
 Conditions:
   Type              Status
   Initialized       False 
@@ -34,7 +34,7 @@ Volumes:
     Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
     ClaimName:  iqgeo-platform-shared-data
     ReadOnly:   false
-  kube-api-access-gjxzx:
+  kube-api-access-wjl8v:
     Type:                    Projected (a volume that contains injected data from multiple sources)
     TokenExpirationSeconds:  3607
     ConfigMapName:           kube-root-ca.crt
@@ -45,24 +45,24 @@ Node-Selectors:              <none>
 Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
                              node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
 Events:
-  Type     Reason     Age                   From               Message
-  ----     ------     ----                  ----               -------
-  Normal   Scheduled  19m                   default-scheduler  Successfully assigned iqgeo/iqgeo-platform-6bccdd6fd6-ss42p to hlegeo8.iqgeo.local
-  Normal   Pulling    17m (x4 over 19m)     kubelet            spec.initContainers{init-ensure-db-connection}: Pulling image "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3"
-  Warning  Failed     17m (x4 over 19m)     kubelet            spec.initContainers{init-ensure-db-connection}: Failed to pull image "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3": failed to pull and unpack image "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3": failed to resolve reference "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3": unexpected status from HEAD request to https://harbor.delivery.iqgeo.cloud/v2/nmti-trials/editions-nmt-comms-cloud/manifests/7.3: 401 Unauthorized
-  Warning  Failed     17m (x4 over 19m)     kubelet            spec.initContainers{init-ensure-db-connection}: Error: ErrImagePull
-  Warning  Failed     17m (x6 over 19m)     kubelet            spec.initContainers{init-ensure-db-connection}: Error: ImagePullBackOff
-  Normal   BackOff    4m16s (x64 over 19m)  kubelet            spec.initContainers{init-ensure-db-connection}: Back-off pulling image "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3"
+  Type     Reason     Age               From               Message
+  ----     ------     ----              ----               -------
+  Normal   Scheduled  31s               default-scheduler  Successfully assigned iqgeo/iqgeo-platform-6bccdd6fd6-nkdwx to hlegeo7.iqgeo.local
+  Normal   BackOff    14s               kubelet            spec.initContainers{init-ensure-db-connection}: Back-off pulling image "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3"
+  Warning  Failed     14s               kubelet            spec.initContainers{init-ensure-db-connection}: Error: ImagePullBackOff
+  Normal   Pulling    1s (x2 over 16s)  kubelet            spec.initContainers{init-ensure-db-connection}: Pulling image "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3"
+  Warning  Failed     0s (x2 over 14s)  kubelet            spec.initContainers{init-ensure-db-connection}: Failed to pull image "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3": failed to pull and unpack image "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3": failed to resolve reference "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3": unexpected status from HEAD request to https://harbor.delivery.iqgeo.cloud/v2/nmti-trials/editions-nmt-comms-cloud/manifests/7.3: 401 Unauthorized
+  Warning  Failed     0s (x2 over 14s)  kubelet            spec.initContainers{init-ensure-db-connection}: Error: ErrImagePull
 
 === 5. Harbor Secret ===
   ✅ Harbor secret exists in iqgeo namespace
 NAME                TYPE                             DATA   AGE
-harbor-repository   kubernetes.io/dockerconfigjson   1      19m
+harbor-repository   kubernetes.io/dockerconfigjson   1      39s
 
 === 6. HPA Status ===
   ⚠️  HPA found (may override replicas)
 NAME                         REFERENCE                 TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
-iqgeo-platform--worker-hpa   Deployment/iqgeo-worker   <unknown>/20%   1         3         0          19m
+iqgeo-platform--worker-hpa   Deployment/iqgeo-worker   <unknown>/20%   1         3         0          39s
 
 =========================================
 SUMMARY
@@ -78,5 +78,5 @@ RECOMMENDED FIX:
 4. Run this script again: ./deploy-and-validate.sh
 
 =========================================
-Completed at Sat Feb 21 05:20:26 AM UTC 2026
+Completed at Sat Feb 21 05:23:54 AM UTC 2026
 =========================================
