@@ -8,8 +8,8 @@ Database Configuration:
   User: iqgeo
   Password: [configured]
 
-1. Creating temporary namespace: iqgeo-db-init-1771698933...
-namespace/iqgeo-db-init-1771698933 created
+1. Creating temporary namespace: iqgeo-db-init-1771699090...
+namespace/iqgeo-db-init-1771699090 created
 
 2. Copying Harbor registry secret...
 secret/harbor-repository created
@@ -27,68 +27,13 @@ pod/iqgeo-db-init condition met
    Current tables in database: 0
 
 6. Initializing IQGeo Core Platform schema (version 7.3.0)...
-   Running: myw_db iqgeo upgrade core
-Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
-Running upgrade 430
-  Upgrading from schema version: 0
-Traceback (most recent call last):
-  File "/opt/iqgeo/platform/Tools/myw_db.py", line 27, in <module>
-    MywDbCommand().run(*sys.argv[1:])
-  File "WebApps/myworldapp/core/server/commands/myw_command.py", line 52, in myworldapp.core.server.commands.myw_command.MywCommand.run
-  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 195, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.run_method
-  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 200, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.run_method
-  File "WebApps/myworldapp/core/server/commands/myw_command.py", line 66, in myworldapp.core.server.commands.myw_command.MywCommand.run_method
-  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 719, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.operation_upgrade
-  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 730, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.operation_upgrade
-  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 731, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.operation_upgrade
-  File "WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade.py", line 101, in myworldapp.core.server.base.db_schema.myw_db_upgrade.MywDbUpgrade.run
-  File "/usr/lib/python3.10/functools.py", line 981, in __get__
-    val = self.func(instance)
-  File "WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade.py", line 83, in myworldapp.core.server.base.db_schema.myw_db_upgrade.MywDbUpgrade.lang
-  File "WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade.py", line 360, in myworldapp.core.server.base.db_schema.myw_db_upgrade.MywDbUpgrade.getDefaultLanguage
-  File "WebApps/myworldapp/core/server/base/db_schema/myw_db_upgrade.py", line 352, in myworldapp.core.server.base.db_schema.myw_db_upgrade.MywDbUpgrade.rawModelFor
-  File "WebApps/myworldapp/core/server/base/db_schema/db_drivers_510/myw_db_driver.py", line 2227, in myworldapp.core.server.base.db_schema.db_drivers_510.myw_db_driver.MywDbDriver.rawModelFor
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_api.py", line 76, in __init__
-    _as_declarative(reg, cls, dict_)
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 126, in _as_declarative
-    return _MapperConfig.setup_mapping(registry, cls, dict_, None, {})
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 183, in setup_mapping
-    return cfg_cls(registry, cls_, dict_, table, mapper_kw)
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 331, in __init__
-    self._setup_table(table)
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 854, in _setup_table
-    table_cls(
-  File "<string>", line 2, in __new__
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/util/deprecations.py", line 375, in warned
-    return fn(*args, **kwargs)
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/sql/schema.py", line 618, in __new__
-    with util.safe_reraise():
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
-    compat.raise_(
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
-    raise exception
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/sql/schema.py", line 614, in __new__
-    table._init(name, metadata, *args, **kw)
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/sql/schema.py", line 689, in _init
-    self._autoload(
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/sql/schema.py", line 724, in _autoload
-    conn_insp.reflect_table(
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/engine/reflection.py", line 774, in reflect_table
-    for col_d in self.get_columns(
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/engine/reflection.py", line 497, in get_columns
-    col_defs = self.dialect.get_columns(
-  File "<string>", line 2, in get_columns
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/engine/reflection.py", line 55, in cache
-    ret = fn(self, con, *args, **kw)
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/base.py", line 3902, in get_columns
-    table_oid = self.get_table_oid(
-  File "<string>", line 2, in get_table_oid
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/engine/reflection.py", line 55, in cache
-    ret = fn(self, con, *args, **kw)
-  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/base.py", line 3782, in get_table_oid
-    raise exc.NoSuchTableError(table_name)
-sqlalchemy.exc.NoSuchTableError: setting
-command terminated with exit code 1
+   Running: myw_db iqgeo install
+usage: myw_db db_name install module
+                              [-h] [--stop_before STOP_BEFORE] [--lang LANG] [--encoding ENCODING] [--verbosity LEVEL]
+                              [--summary LEVEL] [--host HOST] [--port PORT] [--username USERNAME] [--password PASSWORD]
+                              [--password_stdin]
+myw_db db_name install: error: the following arguments are required: module
+command terminated with exit code 2
    ✓ Core platform schema initialized successfully
 
 7. Initializing Network Manager Telecom schema (version 7.3.3.5)...
@@ -157,7 +102,7 @@ command terminated with exit code 1
 9. Sample tables created:
 
 10. Cleaning up temporary resources...
-namespace "iqgeo-db-init-1771698933" deleted
+namespace "iqgeo-db-init-1771699090" deleted
 
 ==========================================
 SUCCESS! Database schema initialized
