@@ -61,27 +61,31 @@ Then crashes trying to access non-existent tables.
 
 ---
 
-## 🔍 What We Need:
+## ✅ SOLUTION: Export Schema from Working Cluster!
 
-### From IQGeo Documentation/Support:
+Since you already have a **working IQGeo cluster**, we can:
 
-1. **Database Initialization Procedure**
-   - How to create initial schema for IQGeo Platform 7.3?
-   - Is there a schema.sql file to import?
-   - Is there a specific initialization command?
+### Simple 2-Step Process:
 
-2. **Environment Variables**
-   - Is there a flag to skip auto-initialization?
-   - Example: `SKIP_DB_INIT=true` or `DB_INIT_MODE=manual`
+**Step 1: Export schema from working database**
+```bash
+./export-working-db-schema.sh
+```
+This exports table definitions, views, sequences, and indexes (no data) from your working cluster.
 
-3. **Migration/Setup Tools**
-   - Can we run `/opt/iqgeo/platform/Tools/myw_db.py` manually?
-   - What commands does it support?
-   - Should we run `myw_db.py create-schema` or similar?
+**Step 2: Import schema to new database**
+```bash
+./import-schema.sh
+```
+This imports the schema and restarts the application pod.
 
-4. **Initial Database Dump**
-   - Do you provide an initial database backup/dump?
-   - Should we start with a pre-populated database?
+### Why This Works:
+
+- ✅ Gets exact schema that your working cluster uses
+- ✅ No need to contact IQGeo support
+- ✅ No guessing about initialization procedures
+- ✅ Schema-only export (fast, no data copied)
+- ✅ Automated import and validation
 
 ---
 
