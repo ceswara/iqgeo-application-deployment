@@ -10,7 +10,7 @@ echo ""
 
 NAMESPACE="iqgeo"
 RELEASE_NAME="iqgeo"
-DB_PASSWORD="MrsIQGEO"
+DB_PASSWORD="IQGeoXHKtCMFtrPRrjV012026!"  # ACTUAL working password (tested)
 DB_USER="iqgeo"
 DB_HOST="10.42.42.9"
 DB_PORT="5432"

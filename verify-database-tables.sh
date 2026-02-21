@@ -15,7 +15,7 @@ DB_HOST="10.42.42.9"
 DB_PORT="5432"
 DB_NAME="iqgeo"
 DB_USER="iqgeo"
-DB_PASSWORD="MrsIQGEO"  # Password from working cluster
+DB_PASSWORD="IQGeoXHKtCMFtrPRrjV012026!"  # ACTUAL working password (tested)
 
 echo "Database Configuration:"
 echo "  Host: $DB_HOST:$DB_PORT"

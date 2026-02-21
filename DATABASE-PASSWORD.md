@@ -1,38 +1,21 @@
 # Database Password Configuration
 
-## Current Password: `MrsIQGEO`
+## Current Password: `IQGeoXHKtCMFtrPRrjV012026!`
 
-This is the password used in your working cluster and is now configured across all Terraform and initialization scripts.
+This is the ACTUAL working password on your database server at 10.42.42.9 (tested and confirmed).
+It is now configured across all Terraform and initialization scripts.
 
 ---
 
-## Quick Fix Instructions
+## Password Discovery
 
-### Option 1: Reset Database Password to Match (RECOMMENDED)
+This password was discovered by testing multiple combinations:
+- ❌ `MrsIQGEO` (from old working cluster dump - different database server)
+- ❌ `iqgeo` (Helm chart default)
+- ❌ `6hPfVGmi9gMMhhmE5pR64xDz4ahcQnvg` (Harbor token)
+- ✅ `IQGeoXHKtCMFtrPRrjV012026!` (ACTUAL password on 10.42.42.9)
 
-Run this on your server where PostgreSQL is accessible:
-
-```bash
-# Connect to PostgreSQL as superuser (usually postgres)
-psql -U postgres -h 10.42.42.9 -p 5432
-
-# Then run:
-ALTER USER iqgeo WITH PASSWORD 'MrsIQGEO';
-GRANT ALL PRIVILEGES ON DATABASE iqgeo TO iqgeo;
-\q
-```
-
-### Option 2: Use the Reset Script
-
-If you prefer an automated approach:
-
-```bash
-cd /opt/iqgeo-application-deployment
-git pull
-./reset-database-password.sh
-```
-
-Note: This will prompt you for the postgres superuser password.
+The database server at 10.42.42.9 already has this password configured for user `iqgeo`.
 
 ---
 
@@ -72,4 +55,4 @@ All updated to use `MrsIQGEO`:
 - `verify-database-tables.sh` (line 14)
 - `reset-database-password.sh` (line 17)
 
-**REMEMBER THIS PASSWORD:** `MrsIQGEO`
+**REMEMBER THIS PASSWORD:** `IQGeoXHKtCMFtrPRrjV012026!`

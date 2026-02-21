@@ -28,7 +28,7 @@ image_pull_secrets = "harbor-repository"  # Must match secret from prerequisites
 db_host     = "10.42.42.9"
 db_port     = "5432"
 db_user     = "iqgeo"
-db_password = "MrsIQGEO"  # Password from working cluster
+db_password = "IQGeoXHKtCMFtrPRrjV012026!"  # ACTUAL working password (tested)
 db_name     = "iqgeo"
 
 # Storage Configuration (must match prerequisites)
@@ -120,7 +120,7 @@ set_values = [
   },
   {
     name  = "platform.database.password"
-    value = "MrsIQGEO"
+    value = "IQGeoXHKtCMFtrPRrjV012026!"
   },
   {
     name  = "platform.database.name"
@@ -141,7 +141,7 @@ set_values = [
   },
   {
     name  = "database.password"
-    value = "MrsIQGEO"
+    value = "IQGeoXHKtCMFtrPRrjV012026!"
   },
   {
     name  = "database.name"

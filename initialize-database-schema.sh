@@ -16,7 +16,7 @@ DB_HOST="10.42.42.9"
 DB_PORT="5432"
 DB_NAME="iqgeo"
 DB_USER="iqgeo"
-DB_PASSWORD="MrsIQGEO"  # Password from working cluster
+DB_PASSWORD="IQGeoXHKtCMFtrPRrjV012026!"  # ACTUAL working password (tested)
 IMAGE="harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3"
 
 echo "Database Configuration:"
