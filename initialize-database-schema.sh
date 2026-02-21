@@ -117,9 +117,9 @@ fi
 
 # Initialize/Upgrade IQGeo Core Platform schema (Platform 7.3)
 echo "6. Initializing IQGeo Core Platform schema (version 7.3)..."
-echo "   Running: myw_db $DB_NAME upgrade core 73"
+echo "   Running: myw_db $DB_NAME upgrade core 730"
 kubectl exec -n $TEMP_NAMESPACE iqgeo-db-init -- bash -c \
-  '/opt/iqgeo/platform/Tools/myw_db $MYW_DB_NAME upgrade core 73' 2>&1 | tee /tmp/init-core-output.txt
+  '/opt/iqgeo/platform/Tools/myw_db $MYW_DB_NAME upgrade core 730' 2>&1 | tee /tmp/init-core-output.txt
 
 if [ ${PIPESTATUS[0]} -eq 0 ]; then
     echo "   ✓ Core platform schema initialized successfully"
