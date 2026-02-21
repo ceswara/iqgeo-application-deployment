@@ -131,6 +131,21 @@ Before running `terraform apply`, make sure:
 - [ ] `ingress_tls_secret` matches certificate from prerequisites
 - [ ] `replica_count` matches your needs (working cluster has 3)
 
+## Post-Deployment: Database Initialization
+
+**IMPORTANT**: After first deployment, initialize the database schema:
+
+```bash
+./initialize-database-schema.sh
+```
+
+This is **required for fresh databases** and uses IQGeo's official `myw_db` tool to:
+- Install Core Platform schema (v7.3)
+- Install Network Manager Telecom schema (v7.3.3.5)
+- Create all required tables, views, and functions
+
+The pods will crash with `sqlalchemy.exc.NoSuchTableError` until this step is completed.
+
 ## Values That Match Prerequisites
 
 These should match what you created in the prerequisites repo:

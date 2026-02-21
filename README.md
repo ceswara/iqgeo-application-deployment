@@ -74,6 +74,22 @@ Deploys the **actual IQGeo application** using Helm charts:
    terraform apply
    ```
 
+6. **Initialize Database Schema (First-time only):**
+   
+   After the first deployment, pods will crash with "NoSuchTableError" because the database is empty. Initialize the schema:
+   
+   ```bash
+   ./initialize-database-schema.sh
+   ```
+   
+   This uses IQGeo's built-in `myw_db` tool to create all required tables.
+
+7. **Verify the deployment:**
+   ```bash
+   kubectl get pods -n iqgeo
+   kubectl logs -n iqgeo -l app=iqgeo-platform --tail=50
+   ```
+
 ## Complete Deployment Workflow
 
 ### Step 1: Setup Infrastructure
@@ -133,23 +149,30 @@ kubectl logs -n default -l app=iqgeo
 
 ## Troubleshooting
 
-1. **Pods not starting:**
+1. **Pods crashing with "NoSuchTableError: setting" or "NoSuchTableError: datasource":**
+   - This means the database schema is not initialized
+   - **Solution**: Run `./initialize-database-schema.sh` to initialize the schema
+   - This only needs to be done once for a fresh database
+
+2. **Pods not starting:**
    ```bash
-   kubectl describe pod <pod-name> -n default
-   kubectl logs <pod-name> -n default
+   kubectl describe pod <pod-name> -n iqgeo
+   kubectl logs <pod-name> -n iqgeo
    ```
 
-2. **Image pull errors:**
-   - Verify Harbor secret exists: `kubectl get secret harbor-repository -n default`
+3. **Image pull errors:**
+   - Verify Harbor secret exists: `kubectl get secret harbor-repository -n iqgeo`
    - Check image pull secrets in pod spec
 
-3. **Database connection errors:**
-   - Verify database secret: `kubectl get secret pg-credential -n default`
-   - Check database server is accessible from cluster
+4. **Database connection errors:**
+   - Verify database is accessible: Test with psql or pg_isready
+   - Check database credentials in terraform.tfvars
+   - Ensure database user has permissions to create tables
 
-4. **Storage issues:**
-   - Verify storage class: `kubectl get storageclass iqgeo-storage`
-   - Check PVCs: `kubectl get pvc -n default`
+5. **Storage issues:**
+   - Verify storage class: `kubectl get storageclass`
+   - Check PVCs: `kubectl get pvc -n iqgeo`
+   - For local-path-provisioner, use `accessMode: ReadWriteOnce`
 
 ## Repository Structure
 
