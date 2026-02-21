@@ -1,0 +1,554 @@
+=========================================
+Waiting for Pod to Become Ready - Sat Feb 21 03:44:23 PM UTC 2026
+=========================================
+
+=== Check at 0s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 5
+
+NAME                               READY   STATUS    RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running   0             12m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     Running   5 (79s ago)   4m2s
+
+Status: Running (Ready: False, Restarts: 5)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+Changing Apache TimeOut from 60 seconds to 1200 seconds
+Redefined upload_cache location to /shared-data/upload
+Added enqueue_kwargs job_timeout with value 1800
+Creating db 'iqgeo'
+Creating database: iqgeo ...
+***Error*** psql: error: connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+Installing core schema into 'iqgeo'
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+
+Waiting 15 seconds...
+
+=== Check at 15s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 5
+
+NAME                               READY   STATUS             RESTARTS     AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0            12m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   5 (0s ago)   4m17s
+
+Status: Running (Ready: False, Restarts: 5)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 30s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 5
+
+NAME                               READY   STATUS             RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0             13m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   5 (15s ago)   4m33s
+
+Status: Running (Ready: False, Restarts: 5)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 45s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 5
+
+NAME                               READY   STATUS             RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0             13m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   5 (30s ago)   4m48s
+
+Status: Running (Ready: False, Restarts: 5)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 60s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 5
+
+NAME                               READY   STATUS             RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0             13m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   5 (46s ago)   5m4s
+
+Status: Running (Ready: False, Restarts: 5)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 75s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 5
+
+NAME                               READY   STATUS             RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0             13m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   5 (61s ago)   5m19s
+
+Status: Running (Ready: False, Restarts: 5)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 90s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 5
+
+NAME                               READY   STATUS             RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0             14m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   5 (76s ago)   5m34s
+
+Status: Running (Ready: False, Restarts: 5)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 105s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 5
+
+NAME                               READY   STATUS             RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0             14m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   5 (92s ago)   5m50s
+
+Status: Running (Ready: False, Restarts: 5)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 120s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 5
+
+NAME                               READY   STATUS             RESTARTS       AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0              14m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   5 (107s ago)   6m5s
+
+Status: Running (Ready: False, Restarts: 5)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 135s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 5
+
+NAME                               READY   STATUS             RESTARTS       AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0              15m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   5 (2m2s ago)   6m20s
+
+Status: Running (Ready: False, Restarts: 5)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 150s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 5
+
+NAME                               READY   STATUS             RESTARTS        AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0               15m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   5 (2m18s ago)   6m36s
+
+Status: Running (Ready: False, Restarts: 5)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 165s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 5
+
+NAME                               READY   STATUS             RESTARTS        AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0               15m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   5 (2m33s ago)   6m51s
+
+Status: Running (Ready: False, Restarts: 5)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 180s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 6
+
+NAME                               READY   STATUS    RESTARTS        AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running   0               15m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     Error     6 (2m48s ago)   7m6s
+
+Status: Running (Ready: False, Restarts: 6)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 195s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 6
+
+NAME                               READY   STATUS             RESTARTS     AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0            16m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   6 (4s ago)   7m22s
+
+Status: Running (Ready: False, Restarts: 6)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 210s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 6
+
+NAME                               READY   STATUS             RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0             16m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   6 (19s ago)   7m37s
+
+Status: Running (Ready: False, Restarts: 6)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 225s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 6
+
+NAME                               READY   STATUS             RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0             16m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   6 (35s ago)   7m53s
+
+Status: Running (Ready: False, Restarts: 6)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 240s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 6
+
+NAME                               READY   STATUS             RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0             16m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   6 (50s ago)   8m8s
+
+Status: Running (Ready: False, Restarts: 6)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 255s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 6
+
+NAME                               READY   STATUS             RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0             17m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   6 (65s ago)   8m23s
+
+Status: Running (Ready: False, Restarts: 6)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 270s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 6
+
+NAME                               READY   STATUS             RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0             17m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   6 (81s ago)   8m39s
+
+Status: Running (Ready: False, Restarts: 6)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=== Check at 285s / 300s ===
+Pod: iqgeo-platform-6bccdd6fd6-l8s89
+Phase: Running
+Ready: False
+Restarts: 6
+
+NAME                               READY   STATUS             RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0             17m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   6 (96s ago)   8m54s
+
+Status: Running (Ready: False, Restarts: 6)
+Last 10 lines of logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
+
+Waiting 15 seconds...
+
+=========================================
+⏱️  Timeout after 300 seconds
+=========================================
+
+Final status:
+NAME                               READY   STATUS             RESTARTS       AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0              17m
+iqgeo-platform-6bccdd6fd6-l8s89    0/1     CrashLoopBackOff   6 (111s ago)   9m9s
+
+Pod logs:
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+Changing Apache TimeOut from 60 seconds to 1200 seconds
+Redefined upload_cache location to /shared-data/upload
+Added enqueue_kwargs job_timeout with value 1800
+Creating db 'iqgeo'
+Creating database: iqgeo ...
+***Error*** psql: error: connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+Installing core schema into 'iqgeo'
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+***Error*** Database error: (psycopg2.OperationalError) connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+connection to server at "10.42.42.9", port 5432 failed: FATAL:  password authentication failed for user "iqgeo"
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+entrypoint process failed on entrypoint.d/300-ensure-database.sh
