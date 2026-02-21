@@ -16,17 +16,14 @@ DB_HOST="10.42.42.9"
 DB_PORT="5432"
 DB_NAME="iqgeo"
 DB_USER="iqgeo"
+DB_PASSWORD="6hPfVGmi9gMMhhmE5pR64xDz4ahcQnvg"
 IMAGE="harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3"
 
 echo "Database Configuration:"
 echo "  Host: $DB_HOST:$DB_PORT"
 echo "  Database: $DB_NAME"
 echo "  User: $DB_USER"
-echo ""
-
-# Prompt for database password
-read -s -p "Enter the database password for user '$DB_USER': " DB_PASSWORD
-echo ""
+echo "  Password: [configured]"
 echo ""
 
 # Create temporary namespace for initialization
