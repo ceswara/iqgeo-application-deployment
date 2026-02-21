@@ -1,85 +1,70 @@
-# FIX REQUIRED: Database Password is Wrong!
+# Setup Database and Deploy Application
 
-## ❌ Issue: Password Authentication Failed
+## Automated Database Setup & Configuration
 
-The application can connect to the database but the password is incorrect:
-```
-FATAL: password authentication failed for user "iqgeo"
-```
-
-## Root Cause:
-We accidentally used the **Harbor password** instead of the **PostgreSQL password**.
+This script will create a fresh PostgreSQL database with proper credentials and configure the application automatically.
 
 ---
 
-## On Your Server - Do This:
-
-### Step 1: Find the Correct Database Password
-
-Check what password was set up on database server `10.42.42.9`:
-
-**Option A: Check database server directly**
-```bash
-ssh 10.42.42.9
-sudo -u postgres psql -c "\\du"  # List database users
-```
-
-**Option B: If user doesn't exist, create it**
-```bash
-ssh 10.42.42.9
-sudo -u postgres psql
-```
-```sql
-CREATE USER iqgeo WITH PASSWORD 'YOUR_CHOSEN_PASSWORD';
-CREATE DATABASE iqgeo OWNER iqgeo;
-GRANT ALL PRIVILEGES ON DATABASE iqgeo TO iqgeo;
-\q
-```
-
-### Step 2: Update Password in ConfigMap
-
-Replace `THE_ACTUAL_PASSWORD` with the real password:
+## On Your Server - Run This:
 
 ```bash
 cd /opt/iqgeo-application-deployment
+git pull
 
-kubectl patch configmap iqgeo-platform-configmap -n iqgeo --type merge -p '{
-  "data": {
-    "MYW_DB_PASSWORD": "THE_ACTUAL_PASSWORD",
-    "PGPASSWORD": "THE_ACTUAL_PASSWORD"
-  }
-}'
+# Run the automated setup (requires SSH access to database server)
+./setup-database-and-patch.sh
 
-# Restart pod
-kubectl delete pod -n iqgeo -l app=iqgeo-platform
-
-# Wait and check
-sleep 60
-kubectl get pods -n iqgeo
-kubectl logs -n iqgeo -l app=iqgeo-platform --tail=30
+# Push results
+git add database-setup-output.txt
+git commit -m "Database setup completed"
+git push
 ```
-
-### Step 3: Update terraform.tfvars Files (Optional - for future deployments)
-
-**On server - Edit both files:**
-1. `/opt/iqgeo-onprem-deployment/terraform/terraform.tfvars` - Line 24
-2. `/opt/iqgeo-application-deployment/terraform.tfvars` - Line 31
-
-Change: `db_password = "THE_ACTUAL_PASSWORD"`
 
 ---
 
-## After Password Fix:
+## What This Script Does:
+
+1. ✅ Generates a secure random password
+2. ✅ Connects to PostgreSQL server (10.42.42.9) via SSH
+3. ✅ Creates database user `iqgeo` with the new password
+4. ✅ Creates database `iqgeo` owned by `iqgeo` user
+5. ✅ Grants all necessary privileges
+6. ✅ Tests the database connection
+7. ✅ Updates ConfigMap with correct credentials
+8. ✅ Restarts the pod
+9. ✅ Monitors startup and shows status
+10. ✅ Displays the new credentials (save them!)
+
+---
+
+## Requirements:
+
+- SSH access to database server: `ssh root@10.42.42.9`
+- Sudo privileges on database server
+- PostgreSQL installed on 10.42.42.9
+
+---
+
+## After Script Completes:
+
+The script will display the new database credentials. **Save them securely!**
+
+Then optionally update your terraform.tfvars files for future deployments:
+1. `/opt/iqgeo-onprem-deployment/terraform/terraform.tfvars` (line 24)
+2. `/opt/iqgeo-application-deployment/terraform.tfvars` (line 31)
+
+---
+
+## If Pod Needs More Time:
 
 ```bash
-cd /opt/iqgeo-application-deployment
-
-# Wait for pod to become ready
+# Continue monitoring
 ./wait-for-ready.sh
 
 # Push results
 git add ready-status.txt
-git commit -m "Post password fix status"
+git commit -m "Pod ready status"
 git push
 ```
 
