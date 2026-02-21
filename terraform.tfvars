@@ -105,7 +105,7 @@ set_values = [
     name  = "imagePullSecrets[0].name"
     value = "harbor-repository"
   },
-  # Force database configuration
+  # Force database configuration (both platform.database.* and root database.*)
   {
     name  = "platform.database.host"
     value = "10.42.42.9"
@@ -124,6 +124,27 @@ set_values = [
   },
   {
     name  = "platform.database.name"
+    value = "iqgeo"
+  },
+  # Also try root-level database config
+  {
+    name  = "database.host"
+    value = "10.42.42.9"
+  },
+  {
+    name  = "database.port"
+    value = "5432"
+  },
+  {
+    name  = "database.user"
+    value = "iqgeo"
+  },
+  {
+    name  = "database.password"
+    value = "6hPfVGmi9gMMhhmE5pR64xDz4ahcQnvg"
+  },
+  {
+    name  = "database.name"
     value = "iqgeo"
   }
 ]
