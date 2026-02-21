@@ -40,9 +40,11 @@ git push
 
 ## Requirements:
 
-- SSH access to database server: `ssh root@10.42.42.9`
-- Sudo privileges on database server
-- PostgreSQL installed on 10.42.42.9
+- ✅ SSH access configured: `root@10.42.42.9` (using SSH keys)
+- ✅ Sudo privileges on database server
+- ✅ PostgreSQL installed on 10.42.42.9
+
+**Note:** The script uses `scp` and `ssh` with your authorized keys to connect as `root@10.42.42.9`.
 
 ---
 
