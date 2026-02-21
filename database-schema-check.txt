@@ -1,0 +1,145 @@
+=========================================
+Database Schema Check - Sat Feb 21 04:19:39 PM UTC 2026
+=========================================
+
+Step 1: Checking current pod status...
+NAME                               READY   STATUS             RESTARTS      AGE
+iqgeo-memcached-69d7fd799c-9t6sq   1/1     Running            0             47m
+iqgeo-platform-6bccdd6fd6-kcvn8    0/1     CrashLoopBackOff   5 (84s ago)   5m45s
+
+Current pod: iqgeo-platform-6bccdd6fd6-kcvn8
+
+Step 2: Checking recent application logs...
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+  File "WebApps/myworldapp/core/server/commands/myw_command.py", line 66, in myworldapp.core.server.commands.myw_command.MywCommand.run_method
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 861, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.operation_list
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 1389, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.list_features
+  File "WebApps/myworldapp/core/server/database/myw_database.py", line 113, in myworldapp.core.server.database.myw_database.MywDatabase.dd
+  File "WebApps/myworldapp/core/server/dd/myw_dd.py", line 27, in init myworldapp.core.server.dd.myw_dd
+  File "WebApps/myworldapp/core/server/models/myw_datasource.py", line 89, in init myworldapp.core.server.models.myw_datasource
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_api.py", line 76, in __init__
+    _as_declarative(reg, cls, dict_)
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 126, in _as_declarative
+    return _MapperConfig.setup_mapping(registry, cls, dict_, None, {})
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 183, in setup_mapping
+    return cfg_cls(registry, cls_, dict_, table, mapper_kw)
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 331, in __init__
+    self._setup_table(table)
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 854, in _setup_table
+    table_cls(
+  File "<string>", line 2, in __new__
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/util/deprecations.py", line 375, in warned
+    return fn(*args, **kwargs)
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/sql/schema.py", line 618, in __new__
+    with util.safe_reraise():
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/sql/schema.py", line 614, in __new__
+    table._init(name, metadata, *args, **kw)
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/sql/schema.py", line 689, in _init
+    self._autoload(
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/sql/schema.py", line 724, in _autoload
+    conn_insp.reflect_table(
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/engine/reflection.py", line 774, in reflect_table
+    for col_d in self.get_columns(
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/engine/reflection.py", line 497, in get_columns
+    col_defs = self.dialect.get_columns(
+  File "<string>", line 2, in get_columns
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/engine/reflection.py", line 55, in cache
+    ret = fn(self, con, *args, **kw)
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/base.py", line 3902, in get_columns
+    table_oid = self.get_table_oid(
+  File "<string>", line 2, in get_table_oid
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/engine/reflection.py", line 55, in cache
+    ret = fn(self, con, *args, **kw)
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/dialects/postgresql/base.py", line 3782, in get_table_oid
+    raise exc.NoSuchTableError(table_name)
+sqlalchemy.exc.NoSuchTableError: datasource
+initializing IQGeo database 'iqgeo' for replication
+Opening database postgresql://***:***@10.42.42.9:5432/iqgeo ...
+Traceback (most recent call last):
+  File "/opt/iqgeo/platform/Tools/myw_db.py", line 27, in <module>
+    MywDbCommand().run(*sys.argv[1:])
+  File "WebApps/myworldapp/core/server/commands/myw_command.py", line 52, in myworldapp.core.server.commands.myw_command.MywCommand.run
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 195, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.run_method
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 200, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.run_method
+  File "WebApps/myworldapp/core/server/commands/myw_command.py", line 66, in myworldapp.core.server.commands.myw_command.MywCommand.run_method
+  File "WebApps/myworldapp/core/server/commands/myw_db_command.py", line 4998, in myworldapp.core.server.commands.myw_db_command.MywDbCommand.operation_initialise
+  File "WebApps/myworldapp/core/server/replication/myw_master_replication_engine.py", line 87, in myworldapp.core.server.replication.myw_master_replication_engine.MywMasterReplicationEngine.__init__
+  File "WebApps/myworldapp/core/server/database/myw_database.py", line 314, in myworldapp.core.server.database.myw_database.MywDatabase.setting
+  File "WebApps/myworldapp/core/server/models/myw_setting.py", line 27, in init myworldapp.core.server.models.myw_setting
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_api.py", line 76, in __init__
+    _as_declarative(reg, cls, dict_)
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 126, in _as_declarative
+    return _MapperConfig.setup_mapping(registry, cls, dict_, None, {})
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 183, in setup_mapping
+    return cfg_cls(registry, cls_, dict_, table, mapper_kw)
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 331, in __init__
+    self._setup_table(table)
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/orm/decl_base.py", line 854, in _setup_table
+    table_cls(
+  File "<string>", line 2, in __new__
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/util/deprecations.py", line 375, in warned
+    return fn(*args, **kwargs)
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/sql/schema.py", line 618, in __new__
+    with util.safe_reraise():
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/opt/iqgeo/platform/Externals/lib/python3.10/site-packages/sqlalchemy/sql/schema.py", line 614, in __new__
+
+Step 3: Checking database tables on 10.42.42.9...
+Did not find any relations.
+
+Step 4: Checking if database has any tables...
+Number of tables in database: 0
+
+⚠️  Database is empty - no tables created yet
+
+The application is trying to initialize the schema but failing.
+Checking if there's an SQL initialization script in the container...
+
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+
+Checking entrypoint scripts...
+Defaulted container "iqgeo-platform" out of: iqgeo-platform, init-ensure-db-connection (init)
+error: unable to upgrade connection: container not found ("iqgeo-platform")
+No entrypoint.d directory
+
+
+Step 5: Checking ConfigMap for any schema/init settings...
+No schema-related config found
+
+Step 6: Checking pod events for more clues...
+LAST SEEN   TYPE      REASON      OBJECT                                MESSAGE
+5m46s       Normal    Scheduled   pod/iqgeo-platform-6bccdd6fd6-kcvn8   Successfully assigned iqgeo/iqgeo-platform-6bccdd6fd6-kcvn8 to hlegeo7.iqgeo.local
+5m31s       Normal    Pulled      pod/iqgeo-platform-6bccdd6fd6-kcvn8   Container image "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3" already present on machine
+5m31s       Normal    Created     pod/iqgeo-platform-6bccdd6fd6-kcvn8   Created container init-ensure-db-connection
+5m30s       Normal    Started     pod/iqgeo-platform-6bccdd6fd6-kcvn8   Started container init-ensure-db-connection
+3m9s        Normal    Pulled      pod/iqgeo-platform-6bccdd6fd6-kcvn8   Container image "harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud:7.3" already present on machine
+3m9s        Normal    Created     pod/iqgeo-platform-6bccdd6fd6-kcvn8   Created container iqgeo-platform
+3m8s        Normal    Started     pod/iqgeo-platform-6bccdd6fd6-kcvn8   Started container iqgeo-platform
+22s         Warning   BackOff     pod/iqgeo-platform-6bccdd6fd6-kcvn8   Back-off restarting failed container iqgeo-platform in pod iqgeo-platform-6bccdd6fd6-kcvn8_iqgeo(b616565e-d0df-425b-b86d-f416509b45d9)
+
+=========================================
+SUMMARY
+=========================================
+
+❌ Database is empty - schema not initialized
+
+NEXT STEPS:
+1. Check if the application requires manual schema initialization
+2. Look for SQL migration scripts or schema.sql files
+3. The 'setting' table error suggests the application expects a pre-populated database
+
+You may need to:
+  - Import an initial database schema
+  - Run database migrations manually
+  - Check IQGeo documentation for database setup requirements
+
+=========================================
+Check Complete - Sat Feb 21 04:19:41 PM UTC 2026
+=========================================
