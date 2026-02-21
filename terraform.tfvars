@@ -85,12 +85,19 @@ set_values = [
     name  = "platform.resources.limits.cpu"
     value = "1"
   },
+  # Chart uses BOTH accessMode (singular) and accessModes (plural)
+  # accessMode takes precedence and is set to ReadWriteMany by default
+  {
+    name  = "platform.persistence.accessMode"
+    value = "ReadWriteOnce"
+  },
   {
     name  = "platform.persistence.accessModes[0]"
     value = "ReadWriteOnce"
   },
+  # Disable autoscaling (was forcing minReplicas: 3)
   {
-    name  = "autoscaling.enabled"
+    name  = "platform.autoscaling.enabled"
     value = "false"
   }
 ]
