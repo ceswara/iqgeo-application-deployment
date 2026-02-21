@@ -1,74 +1,92 @@
-# ✅ Database Created! Now Check Schema
+# ❌ Database Empty - Application Cannot Auto-Initialize
 
-## Database Setup Complete!
+## Current Status:
 
 ✅ Database user `iqgeo` created  
 ✅ Database `iqgeo` created  
 ✅ Password authentication working  
 ✅ Application connecting to database  
+❌ Database has **0 tables** (empty)
+❌ Application **CrashLoopBackOff** - cannot initialize schema
 
-**New Password:** `IQGeoXHKtCMFtrPRrjV012026!` (saved in previous output)
-
----
-
-## ⚠️ New Issue: Missing Database Table
-
-The application is failing because it expects a table called `setting` that doesn't exist yet.
-
-**Error:** `sqlalchemy.exc.NoSuchTableError: setting`
-
-This suggests the database schema needs to be initialized.
+**Password:** `IQGeoXHKtCMFtrPRrjV012026!`
 
 ---
 
-## On Your Server - Check Database Schema:
+## The Problem:
+
+The application tries to initialize the database schema but fails with a **chicken-and-egg issue**:
+
+1. Application starts and tries to initialize database
+2. During init, it uses SQLAlchemy `autoload=True` to reflect existing tables
+3. Tables don't exist yet, so it crashes
+4. Never gets to the point where it creates the tables
+5. Pod restarts → loop continues
+
+**Errors:**
+- `sqlalchemy.exc.NoSuchTableError: datasource`
+- `sqlalchemy.exc.NoSuchTableError: setting`
+
+---
+
+## On Your Server - Check Initialization Options:
 
 ```bash
 cd /opt/iqgeo-application-deployment
 git pull
 
-# Check what's in the database and why schema is missing
-./check-database-schema.sh
+# Check if there are special init flags or setup procedures
+./check-init-options.sh
 
 # Push results
-git add database-schema-check.txt
-git commit -m "Database schema check"
+git add init-options-check.txt
+git commit -m "Init options check"
 git push
 ```
 
 ---
 
-## What to Check:
+## Likely Solutions:
 
-1. Is the database empty (no tables)?
-2. Does the application need a pre-existing schema?
-3. Are there SQL migration scripts that need to run?
-4. Does IQGeo require an initial database dump/backup to be imported?
+### 1. Check for Skip/Disable Init Flag
 
-The check script will:
-- ✅ List all tables in the database
-- ✅ Show application logs with full error details
-- ✅ Check for initialization scripts
-- ✅ Provide guidance on next steps
+There might be an environment variable like:
+- `SKIP_DB_INIT=true`
+- `AUTO_MIGRATE=false`  
+- `DB_INIT_MODE=manual`
 
----
+That tells the app to skip auto-initialization.
 
-## Possible Solutions:
+### 2. Pre-Populate Database Schema
 
-### Option 1: Application Auto-Creates Schema
-Wait longer - the application might be in the process of creating tables. Check logs after a few minutes.
+IQGeo might require importing an initial schema before first start:
 
-### Option 2: Manual Schema Import
-If you have an initial database schema file or backup:
 ```bash
-# On database server
+# If you have a schema.sql file
 scp schema.sql root@10.42.42.9:/tmp/
 ssh root@10.42.42.9
 PGPASSWORD='IQGeoXHKtCMFtrPRrjV012026!' psql -h localhost -U iqgeo -d iqgeo -f /tmp/schema.sql
 ```
 
-### Option 3: Check IQGeo Documentation
-The application might require specific initialization steps or migrations to be run first.
+### 3. Run Manual Database Initialization
+
+The application has `/opt/iqgeo/platform/Tools/myw_db.py` tool.
+
+There might be a command like:
+```bash
+kubectl exec -it POD_NAME -n iqgeo -- /opt/iqgeo/platform/Tools/myw_db.py create-schema
+# or
+kubectl exec -it POD_NAME -n iqgeo -- /opt/iqgeo/platform/Tools/myw_db.py migrate
+```
+
+### 4. Contact IQGeo Support
+
+This is a commercial product. They should have:
+- Installation documentation
+- Database initialization procedures
+- Initial schema files or migration scripts
+
+**Ask them:** "What is the correct procedure for first-time database setup for IQGeo Platform 7.3?"
 
 ---
 
