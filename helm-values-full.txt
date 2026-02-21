@@ -1,0 +1,1071 @@
+=== Helm Values Full Check ===
+Date: Sat Feb 21 04:57:52 AM UTC 2026
+
+=== ALL VALUES (computed, includes defaults) ===
+COMPUTED VALUES:
+autoscaling:
+  enabled: false
+cronjobs:
+  autoBuildExtracts:
+    annotations: {}
+    enabled: false
+    labels: {}
+    nodeSelector: {}
+    parameterString: ""
+    schedule: 00 01 * * *
+    tolerations: []
+  autoRedeploy:
+    annotations: {}
+    enabled: true
+    labels: {}
+    parameterString: ""
+    schedule: 00 00 * * 0
+  dbVacuum:
+    annotations: {}
+    enabled: true
+    labels: {}
+    nodeSelector: {}
+    parameterString: VERBOSE
+    schedule: 30 05 * * 6
+    tolerations: []
+  maintain:
+    annotations: {}
+    enabled: true
+    labels: {}
+    nodeSelector: {}
+    parameterString: transaction_logs,usage_stats,replicas,statistics
+    schedule: 30 03 * * *
+    tolerations: []
+  realignExtracts:
+    annotations: {}
+    enabled: true
+    labels: {}
+    nodeSelector: {}
+    parameterString: ""
+    schedule: 00 01 * * 6
+    tolerations: []
+  replicationExport:
+    annotations: {}
+    enabled: true
+    labels: {}
+    nodeSelector: {}
+    parameterString: ""
+    schedule: 0,20,40 06-17 * * *
+    tolerations: []
+  replicationExportWithCode:
+    annotations: {}
+    enabled: true
+    labels: {}
+    nodeSelector: {}
+    parameterString: ""
+    schedule: 00 23 * * 6
+    tolerations: []
+debezium:
+  enabled: false
+  env:
+  - name: CONFIG_STORAGE_TOPIC
+    value: connect_configs
+  - name: BOOTSTRAP_SERVERS
+    value: kafka-service:9092
+  - name: OFFSET_STORAGE_TOPIC
+    value: connect_offsets
+  - name: STATUS_STORAGE_TOPIC
+    value: connect_statuses
+  extraVolumeMounts: null
+  extraVolumes: null
+  image:
+    pullPolicy: IfNotPresent
+    repository: debezium/connect
+    tag: 2.1.2.Final
+  nodeSelector: {}
+  podAnnotations: {}
+  podLabels: {}
+  podSecurityContext: {}
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 1Gi
+    requests:
+      cpu: 2000m
+      memory: 1Gi
+  securityContext: {}
+  service:
+    annotations: {}
+    labels: {}
+    ports:
+    - name: http
+      port: 8083
+      protocol: TCP
+      targetPort: 8083
+    type: ClusterIP
+  serviceAccount:
+    annotations: {}
+    create: true
+    name: ""
+extra: {}
+extraConfigMap: {}
+extraImagePullSecret:
+  name: harbor-repository
+  password: DFKJ34329dfkdfj3krfhbh
+  registry: harbor.delivery.iqgeo.cloud
+  username: robot$example
+extraPVCs: {}
+extraPodEnv:
+- name: SEND_ERROR_LOG_TO_STDERR
+  value: "YES"
+- name: SEND_ACCESS_LOG_TO_STDOUT
+  value: "YES"
+- name: APACHE_TIMEOUT
+  value: "1200"
+extraPodSpec: {}
+extraSecrets: {}
+fullnameOverride: ""
+globals:
+  rqRedisUrl: redis://iqgeo-redis-master:6379/0
+  taskTimeout: "1800"
+image:
+  pullPolicy: IfNotPresent
+  pullSecrets:
+  - name: harbor-repository
+  repository: harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud
+  tag: "7.3"
+imagePullSecrets:
+- harbor-repository
+ingress:
+  annotations:
+    cert-manager.io/issuer: letsencrypt-prod
+    cert-manager.io/issuer-kind: ClusterIssuer
+    ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "1200"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "1200"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "1200"
+    nginx.org/client-max-body-size: 100m
+  enabled: false
+  hosts:
+  - host: iqgeo-tf.techwave.com
+    paths: []
+  indexPathRewrite:
+    enabled: false
+  ingressClassName: nginx
+  labels: {}
+  tls: []
+kafka:
+  enabled: false
+  env:
+  - name: KAFKA_ZOOKEEPER_CONNECT
+    value: zookeeper-service:2181
+  - name: KAFKA_ADVERTISED_LISTENERS
+    value: PLAINTEXT://kafka-service:9092
+  - name: KAFKA_BROKER_ID
+    value: "1"
+  - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+    value: "1"
+  - name: KAFKA_JMX_PORT
+    value: "9991"
+  extraVolumeMounts: null
+  extraVolumes: null
+  image:
+    pullPolicy: IfNotPresent
+    repository: confluentinc/cp-enterprise-kafka
+    tag: 5.5.3
+  nodeSelector: {}
+  podAnnotations: {}
+  podLabels: {}
+  podSecurityContext: {}
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+  securityContext: {}
+  service:
+    annotations: {}
+    labels: {}
+    name: kafka-service
+    ports:
+    - name: outside
+      port: 9092
+      protocol: TCP
+      targetPort: 9092
+    - name: inside
+      port: 9093
+      protocol: TCP
+      targetPort: 9093
+    type: ClusterIP
+  serviceAccount:
+    annotations: {}
+    create: true
+    name: ""
+memcached:
+  affinity: {}
+  architecture: standalone
+  args: []
+  auth:
+    enabled: false
+    password: ""
+    username: ""
+  autoscaling:
+    enabled: false
+    maxReplicas: 6
+    minReplicas: 3
+    targetCPU: 50
+    targetMemory: 50
+  clusterDomain: cluster.local
+  command: []
+  common:
+    exampleValue: common-chart
+    global:
+      imagePullSecrets: []
+      imageRegistry: ""
+      storageClass: ""
+  commonAnnotations: {}
+  commonLabels: {}
+  containerPorts:
+    memcached: 11211
+  containerSecurityContext:
+    enabled: true
+    runAsNonRoot: true
+    runAsUser: 1001
+  customLivenessProbe: {}
+  customReadinessProbe: {}
+  customStartupProbe: {}
+  diagnosticMode:
+    args:
+    - infinity
+    command:
+    - sleep
+    enabled: false
+  enabled: true
+  extraDeploy: []
+  extraEnvVars: []
+  extraEnvVarsCM: ""
+  extraEnvVarsSecret: ""
+  extraVolumeMounts: []
+  extraVolumes: []
+  fullnameOverride: ""
+  global:
+    imagePullSecrets: []
+    imageRegistry: ""
+    storageClass: ""
+  hostAliases: []
+  image:
+    debug: false
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+    registry: docker.io
+    repository: bitnamilegacy/memcached
+    tag: 1.6.16-debian-11-r0
+  initContainers: []
+  kubeVersion: ""
+  lifecycleHooks: {}
+  livenessProbe:
+    enabled: true
+    failureThreshold: 6
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 5
+  metrics:
+    containerPorts:
+      metrics: 9150
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+    customStartupProbe: {}
+    enabled: false
+    image:
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+      registry: docker.io
+      repository: bitnami/memcached-exporter
+      tag: 0.10.0-debian-11-r18
+    livenessProbe:
+      enabled: true
+      failureThreshold: 3
+      initialDelaySeconds: 15
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+    podAnnotations:
+      prometheus.io/port: '{{ .Values.metrics.containerPorts.metrics }}'
+      prometheus.io/scrape: "true"
+    readinessProbe:
+      enabled: true
+      failureThreshold: 3
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 3
+    resources:
+      limits: {}
+      requests: {}
+    service:
+      annotations:
+        prometheus.io/port: '{{ .Values.metrics.service.ports.metrics }}'
+        prometheus.io/scrape: "true"
+      clusterIP: ""
+      ports:
+        metrics: 9150
+      sessionAffinity: None
+    serviceMonitor:
+      enabled: false
+      honorLabels: false
+      interval: ""
+      jobLabel: ""
+      labels: {}
+      metricRelabelings: []
+      namespace: ""
+      relabelings: []
+      scrapeTimeout: ""
+      selector: {}
+    startupProbe:
+      enabled: false
+      failureThreshold: 15
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+  nameOverride: ""
+  nodeAffinityPreset:
+    key: ""
+    type: ""
+    values: []
+  nodeSelector: {}
+  pdb:
+    create: false
+    maxUnavailable: 1
+    minAvailable: ""
+  persistence:
+    accessModes:
+    - ReadWriteOnce
+    annotations: {}
+    enabled: false
+    selector: {}
+    size: 8Gi
+    storageClass: ""
+  podAffinityPreset: ""
+  podAnnotations: {}
+  podAntiAffinityPreset: soft
+  podLabels: null
+  podManagementPolicy: Parallel
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+  priorityClassName: ""
+  readinessProbe:
+    enabled: true
+    failureThreshold: 6
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    successThreshold: 1
+    timeoutSeconds: 3
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+  schedulerName: ""
+  service:
+    annotations: {}
+    clusterIP: ""
+    externalTrafficPolicy: Cluster
+    extraPorts: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    nodePorts:
+      memcached: ""
+    ports:
+      memcached: 11211
+    sessionAffinity: None
+    sessionAffinityConfig: {}
+    type: ClusterIP
+  serviceAccount:
+    annotations: {}
+    automountServiceAccountToken: true
+    create: false
+    name: ""
+  sidecars: []
+  startupProbe:
+    enabled: false
+    failureThreshold: 15
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  terminationGracePeriodSeconds: ""
+  tolerations: []
+  topologySpreadConstraints: []
+  updateStrategy:
+    rollingUpdate: {}
+    type: RollingUpdate
+  volumePermissions:
+    containerSecurityContext:
+      runAsUser: 0
+    enabled: false
+    image:
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+      registry: docker.io
+      repository: bitnami/bitnami-shell
+      tag: 11-debian-11-r21
+    resources:
+      limits: {}
+      requests: {}
+nameOverride: ""
+pia:
+  affinity: {}
+  args:
+  - |
+    rq worker-pool --path /opt/iqgeo/platform/WebApps pia -n 4 --url ${RQ_REDIS_URL}
+  autoscaling: {}
+  baseUri: ""
+  clientId: ""
+  clientSecret: null
+  command:
+  - /bin/bash
+  - -c
+  dunsId: ""
+  enabled: false
+  existingSecret:
+    clientSecretKey: client-secret
+    enabled: false
+    secretName: iqgeo-pia-secrets
+    transflexClientSecretKey: transflex-client-secret
+  extraPodEnv: []
+  image:
+    pullPolicy: IfNotPresent
+    pullSecrets:
+    - name: harbor-repository
+    repository: null
+    tag: null
+  lifecycle: {}
+  nodeSelector: {}
+  persistence: null
+  podAnnotations: {}
+  podLabels: {}
+  readinessProbe:
+    exec:
+      command:
+      - /bin/sh
+      - -c
+      - exit 0
+    failureThreshold: null
+    initialDelaySeconds: 30
+    periodSeconds: 15
+    successThreshold: 1
+    timeoutSeconds: 2
+  replicaCount: 1
+  replicationSyncUrl: null
+  resources:
+    limits:
+      cpu: 1
+      memory: 4Gi
+    requests:
+      cpu: 1
+      memory: 4Gi
+  rqRedisUrl: null
+  securityContext:
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 33
+  terminationGracePeriodSeconds: 300
+  tolerations: []
+  transflexClientId: ""
+  transflexClientSecret: null
+  transflexUrl: ""
+platform:
+  affinity: {}
+  apachePort: "8080"
+  appcache:
+    host: iqgeo-memcached
+    pass: ""
+    port: 11211
+    type: memcached
+    user: ""
+  autoscaling:
+    behavior:
+      scaleDown:
+        policies:
+        - periodSeconds: 300
+          type: Pods
+          value: 1
+        stabilizationWindowSeconds: 300
+      scaleUp:
+        policies:
+        - periodSeconds: 25
+          type: Pods
+          value: 1
+        selectPolicy: Min
+        stabilizationWindowSeconds: 25
+    enabled: true
+    maxReplicas: 20
+    metrics:
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: 80
+          type: Utilization
+      type: Resource
+    minReplicas: 3
+  database:
+    host: 10.42.42.9
+    name: iqgeo
+    password: 6hPfVGmi9gMMhhmE5pR64xDz4ahcQnvg
+    port: "5432"
+    user: iqgeo
+  db:
+    db_host: ""
+    db_instance: iqgeo
+    db_pass: iqgeo
+    db_port: 5432
+    db_user: postgres
+    existingSecret:
+      enabled: false
+      hostKey: host
+      instanceKey: instance
+      passwordKey: password
+      portKey: port
+      secretName: iqgeo-connection-properties
+      usernameKey: username
+    pg_database: postgres
+    verify_connectivity: true
+  debug: false
+  exporter:
+    enabled: false
+    image:
+      name: harbor.delivery.iqgeo.cloud/observability/iqgeo-exporter:0.1.0
+      pullSecrets:
+      - name: harbor-repository
+    logLevel: INFO
+    resources:
+      limits:
+        memory: 1000Mi
+      requests:
+        memory: 1000Mi
+    scrapeInterval: 1800
+  extraInitContainers: []
+  extraSidecars: []
+  extraVolumeMounts: null
+  extraVolumes: null
+  jwt:
+    algorithm: ""
+    audience: ""
+    enabled: false
+    issuer: ""
+    publicKey: ""
+    rolesClaim: ""
+    userNameClaim: ""
+  lifecycle: {}
+  logger: {}
+  nodeSelector: {}
+  nroDaemon:
+    affinity: {}
+    autoscaling:
+      behavior:
+        scaleDown:
+          policies:
+          - periodSeconds: 300
+            type: Pods
+            value: 1
+          stabilizationWindowSeconds: 300
+        scaleUp:
+          policies:
+          - periodSeconds: 25
+            type: Pods
+            value: 1
+          selectPolicy: Min
+          stabilizationWindowSeconds: 25
+      enabled: true
+      maxReplicas: 6
+      metrics:
+      - resource:
+          name: cpu
+          target:
+            averageUtilization: 80
+            type: Utilization
+        type: Resource
+      minReplicas: 1
+    enabled: false
+    image:
+      enabled: false
+      pullPolicy: IfNotPresent
+      repository: harbor.delivery.iqgeo.cloud/example/pg12-ubuntu-platform-6.3-nro
+      tag: latest
+    lifecycle: {}
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels: {}
+    replicaCount: 1
+    resources:
+      limits:
+        cpu: 3000m
+        memory: 4Gi
+      requests:
+        cpu: 1000m
+        memory: 1Gi
+    tolerations: []
+  oidc:
+    clientId: ""
+    clientSecret:
+      secretKey: oidc-client-secret
+      secretName: oidc-client-secret
+    enabled: false
+    issuer: ""
+    postLogoutRedirectUrls: []
+    redirectUris: []
+    responseTypes:
+    - code
+    scopes:
+    - openid
+    - profile
+    - email
+    services:
+    - discovery
+    - authorization
+    - access_token
+    - user_info
+    - end_session
+    - refresh_access_token
+  persistence:
+    accessMode: ReadWriteMany
+    accessModes:
+    - ReadWriteOnce
+    enabled: true
+    size: 50Gi
+    storageClass: efs
+  podAnnotations: {}
+  podLabels: {}
+  replicaCount: 1
+  reporting:
+    sftp:
+      activeDeadlineSeconds: 3600
+      enabled: true
+      host: sftp.delivery.iqgeo.cloud
+      privateKey:
+        secretKey: ssh-privatekey
+        secretName: iqgeo-platform-sftp-key
+      schedule: '@monthly'
+      user: reporting
+  resources:
+    limits:
+      cpu: 1
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+  rqRedisUrl: redis://iqgeo-redis-master:6379/1
+  sharedDirectory: /shared-data
+  specialDeployment1:
+    affinity: {}
+    autoscaling:
+      behavior:
+        scaleDown:
+          policies:
+          - periodSeconds: 300
+            type: Pods
+            value: 1
+          stabilizationWindowSeconds: 300
+        scaleUp:
+          policies:
+          - periodSeconds: 25
+            type: Pods
+            value: 1
+          selectPolicy: Min
+          stabilizationWindowSeconds: 25
+      enabled: true
+      maxReplicas: 10
+      metrics:
+      - resource:
+          name: cpu
+          target:
+            averageUtilization: 80
+            type: Utilization
+        type: Resource
+      minReplicas: 1
+    debug: false
+    enabled: false
+    image:
+      enabled: false
+      pullPolicy: IfNotPresent
+      repository: harbor.delivery.iqgeo.cloud/example/pg12-ubuntu-platform-6.2-spec
+      tag: latest
+    lifecycle: {}
+    logger: {}
+    nodeSelector: {}
+    persistence: null
+    podAnnotations: {}
+    podLabels: {}
+    replicaCount: 1
+    resources:
+      limits:
+        cpu: 3000m
+        memory: 4Gi
+      requests:
+        cpu: 1000m
+        memory: 1Gi
+    tolerations: []
+  specialDeployment2:
+    affinity: {}
+    autoscaling:
+      behavior:
+        scaleDown:
+          policies:
+          - periodSeconds: 300
+            type: Pods
+            value: 1
+          stabilizationWindowSeconds: 300
+        scaleUp:
+          policies:
+          - periodSeconds: 25
+            type: Pods
+            value: 1
+          selectPolicy: Min
+          stabilizationWindowSeconds: 25
+      enabled: true
+      maxReplicas: 10
+      metrics:
+      - resource:
+          name: cpu
+          target:
+            averageUtilization: 80
+            type: Utilization
+        type: Resource
+      minReplicas: 1
+    enabled: false
+    image:
+      enabled: false
+      pullPolicy: IfNotPresent
+      repository: harbor.delivery.iqgeo.cloud/example/pg12-ubuntu-platform-6.2-spec
+      tag: latest
+    lifecycle: {}
+    nodeSelector: {}
+    persistence: null
+    podAnnotations: {}
+    podLabels: {}
+    replicaCount: 1
+    resources:
+      limits:
+        cpu: 3000m
+        memory: 4Gi
+      requests:
+        cpu: 1000m
+        memory: 1Gi
+    tolerations: []
+  specialDeployment3:
+    affinity: {}
+    autoscaling:
+      behavior:
+        scaleDown:
+          policies:
+          - periodSeconds: 300
+            type: Pods
+            value: 1
+          stabilizationWindowSeconds: 300
+        scaleUp:
+          policies:
+          - periodSeconds: 25
+            type: Pods
+            value: 1
+          selectPolicy: Min
+          stabilizationWindowSeconds: 25
+      enabled: true
+      maxReplicas: 10
+      metrics:
+      - resource:
+          name: cpu
+          target:
+            averageUtilization: 80
+            type: Utilization
+        type: Resource
+      minReplicas: 1
+    enabled: false
+    image:
+      enabled: false
+      pullPolicy: IfNotPresent
+      repository: harbor.delivery.iqgeo.cloud/example/pg12-ubuntu-platform-6.2-spec
+      tag: latest
+    lifecycle: {}
+    nodeSelector: {}
+    persistence: null
+    podAnnotations: {}
+    podLabels: {}
+    replicaCount: 1
+    resources:
+      limits:
+        cpu: 3000m
+        memory: 4Gi
+      requests:
+        cpu: 1000m
+        memory: 1Gi
+    tolerations: []
+  taskTimeout: null
+  tolerations: []
+podSecurityContext: {}
+postgrest:
+  enabled: false
+  postgrest:
+    dbActiveRole: data_warehouse_user
+    dbAnonRole: web_anon
+    dbDefaultSchema: data
+    dbSchema: data, delta
+    url: http://iqgeo-postgrest
+redis:
+  architecture: standalone
+  auth:
+    enabled: false
+    existingSecret: ""
+    existingSecretPasswordKey: ""
+    password: samplepassword
+  enabled: false
+  existingConfigmap: ""
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/redis
+    tag: 7.0.4-debian-11-r9
+  master:
+    count: 1
+  port: "6379"
+  replica:
+    replicaCount: 2
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+  sentinel:
+    enabled: false
+securityContext: {}
+service:
+  annotations: {}
+  externalIPs: {}
+  labels: {}
+  port: 80
+  type: LoadBalancer
+serviceAccount:
+  annotations: {}
+  create: true
+  name: ""
+worker:
+  affinity: {}
+  autoscaling:
+    behavior:
+      scaleDown:
+        policies:
+        - periodSeconds: 900
+          type: Pods
+          value: 1
+        stabilizationWindowSeconds: 3600
+      scaleUp:
+        policies:
+        - periodSeconds: 30
+          type: Pods
+          value: 1
+        stabilizationWindowSeconds: 60
+    enabled: true
+    maxReplicas: 3
+    metrics:
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: 20
+          type: Utilization
+      type: Resource
+    minReplicas: 1
+  enabled: false
+  extraPodEnv: []
+  image:
+    pullPolicy: IfNotPresent
+    pullSecrets:
+    - name: harbor-repository
+    repository: null
+    tag: null
+  lifecycle: {}
+  nodeSelector: {}
+  persistence: null
+  podAnnotations: {}
+  podLabels: {}
+  readinessProbe:
+    exec:
+      command:
+      - myw_task
+      - healthcheck
+    failureThreshold: 3
+    initialDelaySeconds: 15
+    periodSeconds: 15
+    successThreshold: 1
+    timeoutSeconds: 60
+  replicaCount: 1
+  replicationSyncUrl: null
+  resources:
+    limits:
+      cpu: 1
+      memory: 4Gi
+    requests:
+      cpu: 1
+      memory: 4Gi
+  rqRedisUrl: redis://iqgeo-redis-master:6379/1
+  securityContext:
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 33
+  sqlalchemy:
+    existingSecret:
+      enabled: false
+      key: connection-string
+      secretName: iqgeo-sqlalchemy-secret
+  taskQueues: []
+  taskTimeout: null
+  taskWorkers: 1
+  terminationGracePeriodSeconds: 300
+  tolerations: []
+zookeeper:
+  enabled: false
+  env:
+  - name: ZOOKEEPER_CLIENT_PORT
+    value: "2181"
+  - name: ZOOKEEPER_TICK_TIME
+    value: "2000"
+  - name: ALLOW_ANONYMOUS_LOGIN
+    value: "yes"
+  extraVolumeMounts: null
+  extraVolumes: null
+  image:
+    pullPolicy: IfNotPresent
+    repository: bitnamilegacy/zookeeper
+    tag: 3.9.2
+  nodeSelector: {}
+  podAnnotations: {}
+  podLabels: {}
+  podSecurityContext: {}
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+  securityContext: {}
+  service:
+    annotations: {}
+    labels: {}
+    ports:
+    - name: http
+      port: 2181
+      protocol: TCP
+      targetPort: 2181
+    type: ClusterIP
+  serviceAccount:
+    annotations: {}
+    create: true
+    name: ""
+
+=== USER-SUPPLIED VALUES ONLY ===
+USER-SUPPLIED VALUES:
+autoscaling:
+  enabled: false
+extra: {}
+image:
+  pullPolicy: IfNotPresent
+  repository: harbor.delivery.iqgeo.cloud/nmti-trials/editions-nmt-comms-cloud
+  tag: "7.3"
+imagePullSecrets:
+- harbor-repository
+ingress:
+  className: null
+  enabled: false
+  hosts:
+  - host: iqgeo-tf.techwave.com
+    paths: []
+  tls: []
+platform:
+  database:
+    host: 10.42.42.9
+    name: iqgeo
+    password: 6hPfVGmi9gMMhhmE5pR64xDz4ahcQnvg
+    port: "5432"
+    user: iqgeo
+  persistence:
+    accessModes:
+    - ReadWriteOnce
+    enabled: true
+    size: 50Gi
+    storageClass: efs
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 1
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+service:
+  port: 80
+  type: LoadBalancer
+
+=== PVC MANIFEST FROM HELM ===
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: "iqgeo-platform-shared-data"
+spec:
+  accessModes:
+    - "ReadWriteMany"
+  volumeMode: Filesystem
+  resources:
+    requests:
+        storage: "50Gi"
+  storageClassName: efs
+#Additional PVCs
+---
+# Source: iqgeo-platform/templates/auto-redeployment-cronjob.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: "iqgeo-platform-iqgeo-autoredeploy-cronjob-clusterrole"
+rules:
+- apiGroups: [ "apps" ]
+  resources: [ "deployments" ]
+  verbs: [ "get", "list", "update", "patch" ]
+  resourceNames: [ iqgeo-platform ]
+---
+# Source: iqgeo-platform/templates/auto-redeployment-cronjob.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: "iqgeo-platform-iqgeo-autoredeploy-cronjob-clusterrolebinding"
+roleRef:
+
+=== DEPLOYMENT MANIFEST FROM HELM (replicas section) ===
+  name: iqgeo-platform
+  labels:
+    helm.sh/chart: iqgeo-platform-2.14.0
+    app.kubernetes.io/name: iqgeo-platform
+    app.kubernetes.io/instance: iqgeo
+    app.kubernetes.io/version: "7.0.0"
+    app.kubernetes.io/managed-by: Helm
+    app: iqgeo-platform
+    chart: iqgeo-platform-2.14.0
+--
+    kind: Deployment
+    name: iqgeo-platform
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: 80
+          type: Utilization
+      type: Resource
+--
+
