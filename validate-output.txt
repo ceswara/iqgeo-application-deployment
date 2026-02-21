@@ -1,58 +1,58 @@
 =========================================
-IQGeo Deployment Validation - Fri Feb 13 07:55:00 PM UTC 2026
+IQGeo Deployment Validation - Sat Feb 21 04:48:24 AM UTC 2026
 =========================================
 
 === 1. PVC Status ===
 NAME                         STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-iqgeo-platform-shared-data   Pending                                      efs            25s
+iqgeo-platform-shared-data   Pending                                      efs            31s
 
 === 2. PVC Details (access mode) ===
 ["ReadWriteMany"]
 
 === 3. Deployment Status ===
 NAME             READY   UP-TO-DATE   AVAILABLE   AGE
-iqgeo-platform   0/3     3            0           25s
+iqgeo-platform   0/3     3            0           31s
 
 === 4. Replica Count ===
 3
 
 === 5. Pod Status (iqgeo namespace) ===
 NAME                               READY   STATUS    RESTARTS   AGE
-iqgeo-memcached-69d7fd799c-49sx8   1/1     Running   0          24s
-iqgeo-platform-65448dfd68-f59x7    0/1     Pending   0          9s
-iqgeo-platform-65448dfd68-jzpwc    0/1     Pending   0          9s
-iqgeo-platform-65448dfd68-pj7xs    0/1     Pending   0          24s
+iqgeo-memcached-69d7fd799c-lfxkf   1/1     Running   0          32s
+iqgeo-platform-65448dfd68-24bhg    0/1     Pending   0          17s
+iqgeo-platform-65448dfd68-9hgzr    0/1     Pending   0          32s
+iqgeo-platform-65448dfd68-mxqtt    0/1     Pending   0          17s
 
 === 6. iqgeo-platform Pod Details ===
---- pod/iqgeo-platform-65448dfd68-f59x7 ---
+--- pod/iqgeo-platform-65448dfd68-24bhg ---
 NAME                              READY   STATUS    RESTARTS   AGE   IP       NODE     NOMINATED NODE   READINESS GATES
-iqgeo-platform-65448dfd68-f59x7   0/1     Pending   0          9s    <none>   <none>   <none>           <none>
+iqgeo-platform-65448dfd68-24bhg   0/1     Pending   0          17s   <none>   <none>   <none>           <none>
 Events:
   Type     Reason            Age   From               Message
   ----     ------            ----  ----               -------
-  Warning  FailedScheduling  10s   default-scheduler  0/3 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }, 2 Insufficient memory. preemption: 0/3 nodes are available: 1 Preemption is not helpful for scheduling, 2 No preemption victims found for incoming pod..
+  Warning  FailedScheduling  17s   default-scheduler  0/3 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }, 2 Insufficient memory. preemption: 0/3 nodes are available: 1 Preemption is not helpful for scheduling, 2 No preemption victims found for incoming pod..
 
---- pod/iqgeo-platform-65448dfd68-jzpwc ---
+--- pod/iqgeo-platform-65448dfd68-9hgzr ---
 NAME                              READY   STATUS    RESTARTS   AGE   IP       NODE     NOMINATED NODE   READINESS GATES
-iqgeo-platform-65448dfd68-jzpwc   0/1     Pending   0          10s   <none>   <none>   <none>           <none>
-Events:
-  Type     Reason            Age   From               Message
-  ----     ------            ----  ----               -------
-  Warning  FailedScheduling  10s   default-scheduler  0/3 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }, 2 Insufficient memory. preemption: 0/3 nodes are available: 1 Preemption is not helpful for scheduling, 2 No preemption victims found for incoming pod..
-
---- pod/iqgeo-platform-65448dfd68-pj7xs ---
-NAME                              READY   STATUS    RESTARTS   AGE   IP       NODE     NOMINATED NODE   READINESS GATES
-iqgeo-platform-65448dfd68-pj7xs   0/1     Pending   0          25s   <none>   <none>   <none>           <none>
+iqgeo-platform-65448dfd68-9hgzr   0/1     Pending   0          32s   <none>   <none>   <none>           <none>
 Events:                      <none>
+
+--- pod/iqgeo-platform-65448dfd68-mxqtt ---
+NAME                              READY   STATUS    RESTARTS   AGE   IP       NODE     NOMINATED NODE   READINESS GATES
+iqgeo-platform-65448dfd68-mxqtt   0/1     Pending   0          17s   <none>   <none>   <none>           <none>
+Events:
+  Type     Reason            Age   From               Message
+  ----     ------            ----  ----               -------
+  Warning  FailedScheduling  18s   default-scheduler  0/3 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }, 2 Insufficient memory. preemption: 0/3 nodes are available: 1 Preemption is not helpful for scheduling, 2 No preemption victims found for incoming pod..
 
 === 7. Helm Release Status ===
 NAME 	NAMESPACE	REVISION	UPDATED                                	STATUS  	CHART                	APP VERSION
-iqgeo	iqgeo    	1       	2026-02-13 19:54:34.774074664 +0000 UTC	deployed	iqgeo-platform-2.14.0	7.0.0      
+iqgeo	iqgeo    	1       	2026-02-21 04:47:52.235263558 +0000 UTC	deployed	iqgeo-platform-2.14.0	7.0.0      
 
 === 8. Services ===
 NAME              TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
-iqgeo-memcached   ClusterIP      10.109.173.118   <none>        11211/TCP      26s
-iqgeo-platform    LoadBalancer   10.110.13.58     <pending>     80:31698/TCP   26s
+iqgeo-memcached   ClusterIP      10.110.189.68    <none>        11211/TCP      37s
+iqgeo-platform    LoadBalancer   10.105.181.230   <pending>     80:32610/TCP   37s
 
 === 9. Validation Summary ===
 PVC phase: Pending
