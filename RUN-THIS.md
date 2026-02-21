@@ -1,8 +1,8 @@
-# FIX: Patch ConfigMap with Correct Database Values
+# Wait for Pod to Become Ready
 
-## ISSUE: ConfigMap has empty database values!
+## ✅ ConfigMap Fixed! Database Connected!
 
-The Helm chart is not generating the ConfigMap correctly. We need to manually patch it.
+The pod is now **Running** and initializing. It needs time to complete startup.
 
 ## On Your Server - Run This:
 
@@ -10,12 +10,12 @@ The Helm chart is not generating the ConfigMap correctly. We need to manually pa
 cd /opt/iqgeo-application-deployment
 git pull
 
-# Patch the ConfigMap and restart the pod
-./patch-configmap.sh
+# Wait for pod to become ready (checks every 15 seconds, up to 5 minutes)
+./wait-for-ready.sh
 
 # Push the results back
-git add configmap-patch-output.txt
-git commit -m "ConfigMap patch results"
+git add ready-status.txt
+git commit -m "Pod ready status"
 git push
 ```
 
@@ -23,26 +23,33 @@ git push
 
 ## What This Does:
 
-1. ✅ Patches ConfigMap with correct database values:
-   - `MYW_DB_HOST: "10.42.42.9"`
-   - `PGHOST: "10.42.42.9"`
-   - `MYW_DB_USERNAME: "iqgeo"`
-   - Etc.
-2. ✅ Deletes the pod (will be recreated automatically)
-3. ✅ Waits for new pod with correct ConfigMap values
-4. ✅ Checks if database connection works
+1. ✅ Monitors pod status every 15 seconds
+2. ✅ Shows logs and status updates
+3. ✅ Waits up to 5 minutes for pod to become Ready
+4. ✅ Shows service and LoadBalancer status when ready
+5. ✅ Alerts if pod is crashing (>10 restarts)
 
 ---
 
-## To Check Status Later:
+## Current Status:
+
+- ✅ ConfigMap: Fixed with correct database values
+- ✅ Init Container: Successfully connected to database
+- ✅ Main Container: Running and initializing
+- ⏳ Pod Ready: Waiting for application startup to complete
+
+---
+
+## To Check Status Manually:
 
 ```bash
-# Run the check script
-./check-deployment-now.sh
+# Quick check
+kubectl get pods -n iqgeo
 
-# Push results
+# Detailed check
+./check-deployment-now.sh
 git add deployment-check-*.txt
-git commit -m "Deployment check results"
+git commit -m "Deployment check"
 git push
 ```
 
