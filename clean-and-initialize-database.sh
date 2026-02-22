@@ -53,6 +53,16 @@ spec:
       value: "$DB_USER"
     - name: MYW_DB_PASSWORD
       value: "$DB_PASSWORD"
+    - name: PGHOST
+      value: "$DB_HOST"
+    - name: PGPORT
+      value: "$DB_PORT"
+    - name: PGDATABASE
+      value: "$DB_NAME"
+    - name: PGUSER
+      value: "$DB_USER"
+    - name: PGPASSWORD
+      value: "$DB_PASSWORD"
   imagePullSecrets:
   - name: harbor-repository
   restartPolicy: Never
@@ -64,8 +74,7 @@ echo ""
 
 # Check current state
 echo "2. Checking current database state..."
-kubectl exec -n $TEMP_NAMESPACE db-clean -- bash -c \
-  'psql -h $MYW_DB_HOST -p $MYW_DB_PORT -U $MYW_DB_USERNAME -d $MYW_DB_NAME -c "\dn" 2>&1' | head -20
+kubectl exec -n $TEMP_NAMESPACE db-clean -- psql -c "\dn" 2>&1 | head -20
 echo ""
 
 # Drop and recreate database for clean slate
@@ -73,11 +82,8 @@ echo "3. Cleaning database (dropping and recreating)..."
 echo "   WARNING: This will delete all data in the database!"
 echo ""
 
-kubectl exec -n $TEMP_NAMESPACE db-clean -- bash -c \
-  'psql -h $MYW_DB_HOST -p $MYW_DB_PORT -U $MYW_DB_USERNAME -d postgres -c "DROP DATABASE IF EXISTS $MYW_DB_NAME;" 2>&1'
-
-kubectl exec -n $TEMP_NAMESPACE db-clean -- bash -c \
-  'psql -h $MYW_DB_HOST -p $MYW_DB_PORT -U $MYW_DB_USERNAME -d postgres -c "CREATE DATABASE $MYW_DB_NAME OWNER $MYW_DB_USERNAME;" 2>&1'
+kubectl exec -n $TEMP_NAMESPACE db-clean -- psql -d postgres -c "DROP DATABASE IF EXISTS $DB_NAME;" 2>&1
+kubectl exec -n $TEMP_NAMESPACE db-clean -- psql -d postgres -c "CREATE DATABASE $DB_NAME OWNER $DB_USER;" 2>&1
 
 echo "   ✓ Database recreated"
 echo ""
@@ -110,8 +116,7 @@ echo ""
 
 # Verify tables
 echo "6. Verifying tables were created..."
-TABLE_COUNT=$(kubectl exec -n $TEMP_NAMESPACE db-clean -- bash -c \
-  'psql -h $MYW_DB_HOST -p $MYW_DB_PORT -U $MYW_DB_USERNAME -d $MYW_DB_NAME -t -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '"'"'public'"'"';"' 2>&1 | xargs)
+TABLE_COUNT=$(kubectl exec -n $TEMP_NAMESPACE db-clean -- psql -t -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public';" 2>&1 | xargs)
 
 echo "   Total tables: $TABLE_COUNT"
 echo ""
@@ -122,8 +127,7 @@ if [ "$TABLE_COUNT" -gt 50 ]; then
     # List sample tables
     echo ""
     echo "7. Sample tables created:"
-    kubectl exec -n $TEMP_NAMESPACE db-clean -- bash -c \
-      'psql -h $MYW_DB_HOST -p $MYW_DB_PORT -U $MYW_DB_USERNAME -d $MYW_DB_NAME -c "\dt" 2>&1' | head -30
+    kubectl exec -n $TEMP_NAMESPACE db-clean -- psql -c "\dt" 2>&1 | head -30
 else
     echo "   ✗ Insufficient tables created: $TABLE_COUNT"
 fi
